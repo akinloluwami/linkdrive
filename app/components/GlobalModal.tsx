@@ -1,36 +1,51 @@
-import { FolderWithFiles, LinkMinimalistic2 } from "solar-icon-set";
 import Modal from "./ui/Modal";
 import useGlobalModalStore from "~/stores/globalModalStore";
+import AddNew from "./modals/AddNew";
+import React from "react";
+import AddNewLink from "./modals/AddNewLink";
+import { AnimatePresence, motion } from "motion/react";
 
 const GlobalModal = () => {
-  const items = [
+  const { isOpen, setOpen } = useGlobalModalStore();
+  const [activeModal, setActiveModal] = React.useState("add-new");
+
+  const modals = [
     {
-      title: "Link",
-      icon: LinkMinimalistic2,
+      key: "add-new",
+      component: <AddNew setModal={(key) => setActiveModal(key)} />,
+      title: "Add New",
     },
     {
-      title: "Collection",
-      icon: FolderWithFiles,
+      key: "add-new-link",
+      component: <AddNewLink />,
+      title: "Add New Link",
     },
   ];
 
-  const { isOpen, setOpen } = useGlobalModalStore();
+  const modal = modals.find((m) => m.key === activeModal);
+
   return (
-    <Modal title="Add new" isOpen={isOpen} onClose={() => setOpen(false)}>
-      <div className="flex items-center gap-x-4 my-5">
-        {items.map((item, i) => (
-          <div
-            className="h-[200px] w-full bg-gray-100 cursor-pointer hover:bg-gray-100/50 transition-colors rounded-2xl flex items-center flex-col justify-center group"
-            key={i}
+    <Modal
+      title={modal?.title!}
+      isOpen={isOpen}
+      onClose={() => setOpen(false)}
+      backButton={{
+        onClick: () => setActiveModal("add-new"),
+        show: activeModal !== "add-new",
+      }}
+    >
+      <div className="my-5">
+        <AnimatePresence>
+          <motion.div
+            key={activeModal}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            <item.icon
-              size={100}
-              iconStyle="BoldDuotone"
-              className="group-hover:rotate-12 transition-all"
-            />
-            <p className="text-lg">{item.title}</p>
-          </div>
-        ))}
+            {modal?.component}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </Modal>
   );
