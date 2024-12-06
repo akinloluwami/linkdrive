@@ -1,5 +1,5 @@
 import React from "react";
-import { X as Close } from "lucide-react";
+import { ArrowLeft, X as Close } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 interface ModalProps {
@@ -7,9 +7,19 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  backButton?: {
+    onClick: () => void;
+    show: boolean;
+  };
 }
 
-const Modal: React.FC<ModalProps> = ({ children, isOpen, onClose, title }) => {
+const Modal: React.FC<ModalProps> = ({
+  children,
+  isOpen,
+  onClose,
+  title,
+  backButton,
+}) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -26,7 +36,14 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen, onClose, title }) => {
             exit={{ scale: 0.9, opacity: 0 }}
           >
             <div className="flex items-center justify-between">
-              <p className="font-semibold">{title}</p>
+              <div className="flex items-center gap-x-2">
+                {backButton?.show && (
+                  <button onClick={backButton.onClick}>
+                    <ArrowLeft />
+                  </button>
+                )}
+                <p className="font-semibold">{title}</p>
+              </div>
               <button onClick={onClose}>
                 <Close />
               </button>
