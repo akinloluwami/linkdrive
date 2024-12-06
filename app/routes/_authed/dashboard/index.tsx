@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { link } from "fs-extra";
+import NoLinks from "~/components/NoLinks";
 
 export const Route = createFileRoute("/_authed/dashboard/")({
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  return <div>This is the dashboard page.</div>;
+  const links = [];
+  return <div>{!links.length ? <NoLinks /> : <>here are the links</>}</div>;
 }
