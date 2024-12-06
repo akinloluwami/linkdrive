@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { link } from "fs-extra";
 import NoLinks from "~/components/NoLinks";
 
 export const Route = createFileRoute("/_authed/dashboard/")({
