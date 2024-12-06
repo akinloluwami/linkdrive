@@ -1,6 +1,9 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import * as Icons from "solar-icon-set";
 import cn from "classnames";
+import { AddCircle } from "solar-icon-set";
+import useGlobalModalStore from "~/stores/globalModalStore";
+import { Plus } from "lucide-react";
 
 const Sidebar = () => {
   const links = [
@@ -17,11 +20,19 @@ const Sidebar = () => {
   ];
 
   const router = useRouter();
+  const { setOpen } = useGlobalModalStore();
 
   return (
     <div className="py-3 px-4 w-full h-screen bg-[#f5f5f3]">
       <h1>Logo</h1>
-      <div className="space-y-3 mt-10">
+      <button
+        className="w-full px-8 mt-8 rounded-4xl bg-white text-accent shadow-2xl py-3 font-medium flex items-center justify-center gap-x-1 hover:bg-white/80 transition-colors"
+        onClick={() => setOpen(true)}
+      >
+        <Plus size={18} />
+        Add new
+      </button>
+      <div className="space-y-3 mt-8">
         {links.map((link, index) => (
           <Link
             key={index}
