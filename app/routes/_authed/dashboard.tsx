@@ -13,12 +13,12 @@ function RouteComponent() {
         <Sidebar />
       </div>
       <div className="w-full">
-        <div className="bg-gray-100/20 w-full py-2 px-10 flex items-center justify-between">
+        <div className="bg-gray-100/20 w-full h-[60px] px-10 flex items-center justify-between fixed top-0 right-0">
           <div className=""></div>
-          <button className="w-fit px-8 rounded-4xl bg-accent text-white py-3 font-medium flex items-center justify-center gap-x-2 cursor-pointer">
+          {/* <button className="w-fit px-8 rounded-4xl bg-accent text-white py-3 font-medium flex items-center justify-center gap-x-2 cursor-pointer">
             <Icons.AddCircle size={24} iconStyle="Linear" />
             Add new
-          </button>
+          </button> */}
         </div>
         <div className="px-10 py-5">
           <Outlet />
