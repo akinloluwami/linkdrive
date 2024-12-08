@@ -1,9 +1,10 @@
 import Modal from "./ui/Modal";
 import useGlobalModalStore from "~/stores/globalModalStore";
-import AddNew from "./modals/AddNew";
+import AddNew from "./modals/add-new";
 import React from "react";
-import AddNewLink from "./modals/AddNewLink";
+import AddNewLink from "./modals/add-new-link";
 import { AnimatePresence, motion } from "motion/react";
+import CreateCollection from "./modals/create-collection";
 
 const GlobalModal = () => {
   const { isOpen, setOpen } = useGlobalModalStore();
@@ -20,6 +21,11 @@ const GlobalModal = () => {
       component: <AddNewLink />,
       title: "Add New Link",
     },
+    {
+      key: "create-collection",
+      component: <CreateCollection />,
+      title: "Create Collection",
+    },
   ];
 
   const modal = modals.find((m) => m.key === activeModal);
@@ -34,8 +40,8 @@ const GlobalModal = () => {
         show: activeModal !== "add-new",
       }}
     >
-      <div className="my-5">
-        <AnimatePresence>
+      <AnimatePresence>
+        <div className="my-5">
           <motion.div
             key={activeModal}
             initial={{ opacity: 0 }}
@@ -45,8 +51,8 @@ const GlobalModal = () => {
           >
             {modal?.component}
           </motion.div>
-        </AnimatePresence>
-      </div>
+        </div>
+      </AnimatePresence>
     </Modal>
   );
 };

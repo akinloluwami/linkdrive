@@ -1,21 +1,20 @@
 import { Link, useRouter } from "@tanstack/react-router";
-import * as Icons from "solar-icon-set";
 import cn from "classnames";
-import { AddCircle } from "solar-icon-set";
 import useGlobalModalStore from "~/stores/globalModalStore";
 import { Plus } from "lucide-react";
+import { Folder2, Home2 } from "solar-icon-set";
 
 const Sidebar = () => {
   const links = [
     {
       title: "Home",
       href: "/dashboard",
-      icon: Icons.Home2,
+      icon: Home2,
     },
     {
       title: "Collections",
       href: "/dashboard/collections",
-      icon: Icons.Folder2,
+      icon: Folder2,
     },
   ];
 
