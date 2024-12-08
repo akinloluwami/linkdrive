@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
-import GlobalModal from "../components/global-modal";
-import Sidebar from "../components/sidebar";
+import GlobalModal from "~/components/global-modal";
+import Sidebar from "~/components/sidebar";
 import { useAppSession } from "~/utils/session";
 
 export const loginFn = createServerFn().handler(async () => {
