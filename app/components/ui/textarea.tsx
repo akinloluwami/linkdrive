@@ -16,7 +16,7 @@ const Textarea: React.FC<TextareaProps> = ({
       <textarea
         {...props}
         className={classNames(
-          "text-accent font-medium bg-gray-200/70 outline-0 rounded-2xl py-3 w-full px-3 placeholder:text-accent/50 border-2 border-transparent focus:border-accent",
+          "text-accent font-medium bg-white border-gray-100 outline-0 rounded-2xl py-3 w-full px-3 placeholder:text-accent/50 border-2 focus:border-accent",
           props.className
         )}
       />
