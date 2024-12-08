@@ -6,3 +6,10 @@ export interface BookmarkProps {
   image: string;
   date: string;
 }
+
+export interface CollectionProps {
+  id: string;
+  name: string;
+  lastUpdated: string;
+  linksCount: number;
+}
