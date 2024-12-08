@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import BookmarkCard from "~/components/bookmark-card";
-import NoLinks from "~/components/no-links";
+import NoLinks from "~/components/empty-states/no-links";
 import { bookmarks } from "~/mock";
 
 export const Route = createFileRoute("/_authed/dashboard/")({
@@ -10,6 +10,9 @@ export const Route = createFileRoute("/_authed/dashboard/")({
 function RouteComponent() {
   return (
     <div>
+      <h1 className="text-2xl font-medium text-accent mb-3">
+        Welcome to LinkDrive
+      </h1>
       {!bookmarks.length ? (
         <NoLinks />
       ) : (
