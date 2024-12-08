@@ -15,7 +15,8 @@ import { Route as AuthedImport } from './routes/_authed'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthedDashboardImport } from './routes/_authed/dashboard'
 import { Route as AuthedDashboardIndexImport } from './routes/_authed/dashboard/index'
-import { Route as AuthedDashboardCollectionsImport } from './routes/_authed/dashboard/collections'
+import { Route as AuthedDashboardCollectionsIndexImport } from './routes/_authed/dashboard/collections/index'
+import { Route as AuthedDashboardCollectionsCollectionIdImport } from './routes/_authed/dashboard/collections/$collectionId'
 
 // Create/Update Routes
 
@@ -42,13 +43,19 @@ const AuthedDashboardIndexRoute = AuthedDashboardIndexImport.update({
   getParentRoute: () => AuthedDashboardRoute,
 } as any)
 
-const AuthedDashboardCollectionsRoute = AuthedDashboardCollectionsImport.update(
-  {
-    id: '/collections',
-    path: '/collections',
+const AuthedDashboardCollectionsIndexRoute =
+  AuthedDashboardCollectionsIndexImport.update({
+    id: '/collections/',
+    path: '/collections/',
     getParentRoute: () => AuthedDashboardRoute,
-  } as any,
-)
+  } as any)
+
+const AuthedDashboardCollectionsCollectionIdRoute =
+  AuthedDashboardCollectionsCollectionIdImport.update({
+    id: '/collections/$collectionId',
+    path: '/collections/$collectionId',
+    getParentRoute: () => AuthedDashboardRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -75,18 +82,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedDashboardImport
       parentRoute: typeof AuthedImport
     }
-    '/_authed/dashboard/collections': {
-      id: '/_authed/dashboard/collections'
-      path: '/collections'
-      fullPath: '/dashboard/collections'
-      preLoaderRoute: typeof AuthedDashboardCollectionsImport
-      parentRoute: typeof AuthedDashboardImport
-    }
     '/_authed/dashboard/': {
       id: '/_authed/dashboard/'
       path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof AuthedDashboardIndexImport
+      parentRoute: typeof AuthedDashboardImport
+    }
+    '/_authed/dashboard/collections/$collectionId': {
+      id: '/_authed/dashboard/collections/$collectionId'
+      path: '/collections/$collectionId'
+      fullPath: '/dashboard/collections/$collectionId'
+      preLoaderRoute: typeof AuthedDashboardCollectionsCollectionIdImport
+      parentRoute: typeof AuthedDashboardImport
+    }
+    '/_authed/dashboard/collections/': {
+      id: '/_authed/dashboard/collections/'
+      path: '/collections'
+      fullPath: '/dashboard/collections'
+      preLoaderRoute: typeof AuthedDashboardCollectionsIndexImport
       parentRoute: typeof AuthedDashboardImport
     }
   }
@@ -95,13 +109,16 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthedDashboardRouteChildren {
-  AuthedDashboardCollectionsRoute: typeof AuthedDashboardCollectionsRoute
   AuthedDashboardIndexRoute: typeof AuthedDashboardIndexRoute
+  AuthedDashboardCollectionsCollectionIdRoute: typeof AuthedDashboardCollectionsCollectionIdRoute
+  AuthedDashboardCollectionsIndexRoute: typeof AuthedDashboardCollectionsIndexRoute
 }
 
 const AuthedDashboardRouteChildren: AuthedDashboardRouteChildren = {
-  AuthedDashboardCollectionsRoute: AuthedDashboardCollectionsRoute,
   AuthedDashboardIndexRoute: AuthedDashboardIndexRoute,
+  AuthedDashboardCollectionsCollectionIdRoute:
+    AuthedDashboardCollectionsCollectionIdRoute,
+  AuthedDashboardCollectionsIndexRoute: AuthedDashboardCollectionsIndexRoute,
 }
 
 const AuthedDashboardRouteWithChildren = AuthedDashboardRoute._addFileChildren(
@@ -123,15 +140,17 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
   '/dashboard': typeof AuthedDashboardRouteWithChildren
-  '/dashboard/collections': typeof AuthedDashboardCollectionsRoute
   '/dashboard/': typeof AuthedDashboardIndexRoute
+  '/dashboard/collections/$collectionId': typeof AuthedDashboardCollectionsCollectionIdRoute
+  '/dashboard/collections': typeof AuthedDashboardCollectionsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
-  '/dashboard/collections': typeof AuthedDashboardCollectionsRoute
   '/dashboard': typeof AuthedDashboardIndexRoute
+  '/dashboard/collections/$collectionId': typeof AuthedDashboardCollectionsCollectionIdRoute
+  '/dashboard/collections': typeof AuthedDashboardCollectionsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -139,22 +158,35 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
   '/_authed/dashboard': typeof AuthedDashboardRouteWithChildren
-  '/_authed/dashboard/collections': typeof AuthedDashboardCollectionsRoute
   '/_authed/dashboard/': typeof AuthedDashboardIndexRoute
+  '/_authed/dashboard/collections/$collectionId': typeof AuthedDashboardCollectionsCollectionIdRoute
+  '/_authed/dashboard/collections/': typeof AuthedDashboardCollectionsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/dashboard' | '/dashboard/collections' | '/dashboard/'
+  fullPaths:
+    | '/'
+    | ''
+    | '/dashboard'
+    | '/dashboard/'
+    | '/dashboard/collections/$collectionId'
+    | '/dashboard/collections'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/dashboard/collections' | '/dashboard'
+  to:
+    | '/'
+    | ''
+    | '/dashboard'
+    | '/dashboard/collections/$collectionId'
+    | '/dashboard/collections'
   id:
     | '__root__'
     | '/'
     | '/_authed'
     | '/_authed/dashboard'
-    | '/_authed/dashboard/collections'
     | '/_authed/dashboard/'
+    | '/_authed/dashboard/collections/$collectionId'
+    | '/_authed/dashboard/collections/'
   fileRoutesById: FileRoutesById
 }
 
@@ -195,16 +227,21 @@ export const routeTree = rootRoute
       "filePath": "_authed/dashboard.tsx",
       "parent": "/_authed",
       "children": [
-        "/_authed/dashboard/collections",
-        "/_authed/dashboard/"
+        "/_authed/dashboard/",
+        "/_authed/dashboard/collections/$collectionId",
+        "/_authed/dashboard/collections/"
       ]
-    },
-    "/_authed/dashboard/collections": {
-      "filePath": "_authed/dashboard/collections.tsx",
-      "parent": "/_authed/dashboard"
     },
     "/_authed/dashboard/": {
       "filePath": "_authed/dashboard/index.tsx",
+      "parent": "/_authed/dashboard"
+    },
+    "/_authed/dashboard/collections/$collectionId": {
+      "filePath": "_authed/dashboard/collections/$collectionId.tsx",
+      "parent": "/_authed/dashboard"
+    },
+    "/_authed/dashboard/collections/": {
+      "filePath": "_authed/dashboard/collections/index.tsx",
       "parent": "/_authed/dashboard"
     }
   }
