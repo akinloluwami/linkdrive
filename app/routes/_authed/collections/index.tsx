@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import NoCollections from "~/components/empty-states/no-collections";
+import { collections } from "~/mock";
+import CollectionCard from "~/components/collection-card";
 
 export const Route = createFileRoute("/_authed/collections/")({
   component: RouteComponent,
@@ -8,7 +10,15 @@ export const Route = createFileRoute("/_authed/collections/")({
 function RouteComponent() {
   return (
     <div>
-      <NoCollections />
+      {!collections.length ? (
+        <NoCollections />
+      ) : (
+        <div className="grid grid-cols-3 gap-4">
+          {collections.map((collection, i) => (
+            <CollectionCard key={i} {...collection} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
