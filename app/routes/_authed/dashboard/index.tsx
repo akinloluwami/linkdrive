@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import BookmarkCard from "~/components/BookmarkCard";
-import NoLinks from "~/components/NoLinks";
+import BookmarkCard from "~/components/bookmark-card";
+import NoLinks from "~/components/no-links";
 import { bookmarks } from "~/mock";
 
 export const Route = createFileRoute("/_authed/dashboard/")({
