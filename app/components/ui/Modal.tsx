@@ -32,19 +32,27 @@ const Modal: React.FC<ModalProps> = ({
           <motion.div
             className="w-[500px] h-fit rounded-2xl bg-white shadow p-5"
             initial={{ scale: 0.9, opacity: 0 }}
+            layout
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
+            transition={{ layout: { duration: 0.3 } }}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-x-2">
                 {backButton?.show && (
-                  <button onClick={backButton.onClick}>
+                  <button
+                    onClick={backButton.onClick}
+                    className="hover:bg-accent/10 transition-colors rounded-2xl"
+                  >
                     <ArrowLeft />
                   </button>
                 )}
                 <p className="font-semibold">{title}</p>
               </div>
-              <button onClick={onClose}>
+              <button
+                onClick={onClose}
+                className="hover:bg-accent/10 transition-colors rounded-2xl"
+              >
                 <Close />
               </button>
             </div>
