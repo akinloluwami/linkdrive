@@ -10,10 +10,6 @@ body {
   background-color: #fff;
 }
 
-button {
-  cursor: pointer;
-}
-
 @theme {
   --color-accent: #171717;
 }
