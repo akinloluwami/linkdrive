@@ -1,4 +1,6 @@
-export const bookmarks = [
+import { BookmarkProps } from "./types";
+
+export const bookmarks: BookmarkProps[] = [
   {
     href: "https://nextjs.org?ref=linkdrive",
     title: "Next.js by Vercel - The React Framework",
