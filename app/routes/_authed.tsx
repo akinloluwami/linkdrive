@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
 import GlobalModal from "~/components/global-modal";
-import Sidebar from "~/components/sidebar";
+// import Sidebar from "~/components/sidebar";
 import { useAppSession } from "~/utils/session";
 
 export const loginFn = createServerFn().handler(async () => {
@@ -44,9 +44,7 @@ export const Route = createFileRoute("/_authed")({
       <>
         <GlobalModal />
         <div className="flex relative">
-          <div className="w-[30%] max-w-[270px]">
-            <Sidebar />
-          </div>
+          <div className="w-[30%] max-w-[270px]">{/* <Sidebar /> */}</div>
           <div className="w-full relative">
             <div className="bg-gray-100 w-full h-[60px] px-10 flex items-center sticky top-0 right-0 inset-0">
               <div className=""></div>
