@@ -1,9 +1,8 @@
-import React from "react";
 import { FolderWithFiles, LinkMinimalistic2 } from "solar-icon-set";
+import useGlobalModalStore from "~/stores/globalModalStore";
 
-const AddNew: React.FC<{
-  setModal: (key: string) => void;
-}> = ({ setModal }) => {
+const AddNew = () => {
+  const { setActiveModal, activeModal } = useGlobalModalStore();
   const items = [
     {
       title: "Link",
@@ -22,7 +21,7 @@ const AddNew: React.FC<{
         <div
           className="h-[200px] w-full bg-gray-100 cursor-pointer hover:bg-gray-100/50 transition-colors rounded-2xl flex items-center flex-col justify-center group"
           key={i}
-          onClick={() => setModal(item.key)}
+          onClick={() => setActiveModal(item.key as typeof activeModal)}
         >
           <item.icon
             size={100}

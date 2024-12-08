@@ -1,13 +1,15 @@
 import { create } from "zustand";
 
 interface GlobalModalStoreProps {
-  isOpen: boolean;
-  setOpen: (isOpen: boolean) => void;
+  activeModal: "add-new" | "add-new-link" | "create-collection" | null;
+  setActiveModal: (
+    activeModal: "add-new" | "add-new-link" | "create-collection" | null
+  ) => void;
 }
 
 const useGlobalModalStore = create<GlobalModalStoreProps>((set) => ({
-  isOpen: false,
-  setOpen: (isOpen) => set({ isOpen }),
+  activeModal: null,
+  setActiveModal: (activeModal) => set({ activeModal }),
 }));
 
 export default useGlobalModalStore;

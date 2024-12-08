@@ -1,4 +1,4 @@
-import Modal from "./ui/Modal";
+import Modal from "./ui/modal";
 import useGlobalModalStore from "~/stores/globalModalStore";
 import AddNew from "./modals/add-new";
 import React from "react";
@@ -7,13 +7,12 @@ import { AnimatePresence, motion } from "motion/react";
 import CreateCollection from "./modals/create-collection";
 
 const GlobalModal = () => {
-  const { isOpen, setOpen } = useGlobalModalStore();
-  const [activeModal, setActiveModal] = React.useState("add-new");
+  const { activeModal, setActiveModal } = useGlobalModalStore();
 
   const modals = [
     {
       key: "add-new",
-      component: <AddNew setModal={(key) => setActiveModal(key)} />,
+      component: <AddNew />,
       title: "Add New",
     },
     {
@@ -33,12 +32,8 @@ const GlobalModal = () => {
   return (
     <Modal
       title={modal?.title!}
-      isOpen={isOpen}
-      onClose={() => setOpen(false)}
-      backButton={{
-        onClick: () => setActiveModal("add-new"),
-        show: activeModal !== "add-new",
-      }}
+      isOpen={!!activeModal}
+      onClose={() => setActiveModal(null)}
     >
       <AnimatePresence>
         <div className="my-5">

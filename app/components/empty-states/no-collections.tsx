@@ -1,32 +1,24 @@
 import { FolderFavouriteStar, LinkCircle } from "solar-icon-set";
 import Button from "../ui/button";
-import Modal from "../ui/Modal";
-import CreateCollection from "../modals/create-collection";
-import React from "react";
+import useGlobalModalStore from "~/stores/globalModalStore";
 
 const NoCollections = () => {
-  const [open, setOpen] = React.useState(false);
+  const { setActiveModal } = useGlobalModalStore();
   return (
-    <>
-      <Modal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        title="Create Collection"
+    <div className="w-full h-[calc(90vh-60px)] flex items-center justify-center flex-col space-y-2">
+      <FolderFavouriteStar iconStyle="BoldDuotone" size={100} />
+      <p className="font-medium text-2xl">Create Your First Collection</p>
+      <p>
+        Collections help you organize and manage your favorite links in one
+        place.
+      </p>
+      <Button
+        className="!w-fit px-10"
+        onClick={() => setActiveModal("create-collection")}
       >
-        <CreateCollection />
-      </Modal>
-      <div className="w-full h-[calc(90vh-60px)] flex items-center justify-center flex-col space-y-2">
-        <FolderFavouriteStar iconStyle="BoldDuotone" size={100} />
-        <p className="font-medium text-2xl">Create Your First Collection</p>
-        <p>
-          Collections help you organize and manage your favorite links in one
-          place.
-        </p>
-        <Button className="!w-fit px-10" onClick={() => setOpen(true)}>
-          Create collection
-        </Button>
-      </div>
-    </>
+        Create collection
+      </Button>
+    </div>
   );
 };
 
