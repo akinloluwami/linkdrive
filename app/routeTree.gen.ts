@@ -11,6 +11,8 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SignupImport } from './routes/signup'
+import { Route as LoginImport } from './routes/login'
 import { Route as AuthedImport } from './routes/_authed'
 import { Route as IndexImport } from './routes/index'
 import { Route as AuthedBookmarksImport } from './routes/_authed/bookmarks'
@@ -18,6 +20,18 @@ import { Route as AuthedCollectionsIndexImport } from './routes/_authed/collecti
 import { Route as AuthedCollectionsCollectionIdImport } from './routes/_authed/collections/$collectionId'
 
 // Create/Update Routes
+
+const SignupRoute = SignupImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AuthedRoute = AuthedImport.update({
   id: '/_authed',
@@ -67,6 +81,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupImport
+      parentRoute: typeof rootRoute
+    }
     '/_authed/bookmarks': {
       id: '/_authed/bookmarks'
       path: '/bookmarks'
@@ -111,6 +139,8 @@ const AuthedRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/bookmarks': typeof AuthedBookmarksRoute
   '/collections/$collectionId': typeof AuthedCollectionsCollectionIdRoute
   '/collections': typeof AuthedCollectionsIndexRoute
@@ -119,6 +149,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/bookmarks': typeof AuthedBookmarksRoute
   '/collections/$collectionId': typeof AuthedCollectionsCollectionIdRoute
   '/collections': typeof AuthedCollectionsIndexRoute
@@ -128,6 +160,8 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
   '/_authed/bookmarks': typeof AuthedBookmarksRoute
   '/_authed/collections/$collectionId': typeof AuthedCollectionsCollectionIdRoute
   '/_authed/collections/': typeof AuthedCollectionsIndexRoute
@@ -138,15 +172,26 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
+    | '/login'
+    | '/signup'
     | '/bookmarks'
     | '/collections/$collectionId'
     | '/collections'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/bookmarks' | '/collections/$collectionId' | '/collections'
+  to:
+    | '/'
+    | ''
+    | '/login'
+    | '/signup'
+    | '/bookmarks'
+    | '/collections/$collectionId'
+    | '/collections'
   id:
     | '__root__'
     | '/'
     | '/_authed'
+    | '/login'
+    | '/signup'
     | '/_authed/bookmarks'
     | '/_authed/collections/$collectionId'
     | '/_authed/collections/'
@@ -156,11 +201,15 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
 }
 
 export const routeTree = rootRoute
@@ -174,7 +223,9 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_authed"
+        "/_authed",
+        "/login",
+        "/signup"
       ]
     },
     "/": {
@@ -187,6 +238,12 @@ export const routeTree = rootRoute
         "/_authed/collections/$collectionId",
         "/_authed/collections/"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/signup": {
+      "filePath": "signup.tsx"
     },
     "/_authed/bookmarks": {
       "filePath": "_authed/bookmarks.tsx",
