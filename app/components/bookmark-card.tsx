@@ -1,12 +1,6 @@
-interface BookmarkCardProps {
-  href: string;
-  title: string;
-  favicon: string;
-  image: string;
-  date: string;
-}
+import { BookmarkProps } from "~/types";
 
-const BookmarkCard: React.FC<BookmarkCardProps> = ({
+const BookmarkCard: React.FC<BookmarkProps> = ({
   href,
   title,
   favicon,
