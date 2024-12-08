@@ -1,7 +1,6 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import GlobalModal from "~/components/GlobalModal";
-import Sidebar from "~/components/Sidebar";
-import Modal from "~/components/ui/Modal";
+import GlobalModal from "~/components/global-modal";
+import Sidebar from "~/components/sidebar";
 
 export const Route = createRootRoute({
   component: RouteComponent,
