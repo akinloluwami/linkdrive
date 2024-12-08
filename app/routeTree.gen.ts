@@ -13,10 +13,9 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as AuthedImport } from './routes/_authed'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthedDashboardImport } from './routes/_authed/dashboard'
-import { Route as AuthedDashboardIndexImport } from './routes/_authed/dashboard/index'
-import { Route as AuthedDashboardCollectionsIndexImport } from './routes/_authed/dashboard/collections/index'
-import { Route as AuthedDashboardCollectionsCollectionIdImport } from './routes/_authed/dashboard/collections/$collectionId'
+import { Route as AuthedBookmarksImport } from './routes/_authed/bookmarks'
+import { Route as AuthedCollectionsIndexImport } from './routes/_authed/collections/index'
+import { Route as AuthedCollectionsCollectionIdImport } from './routes/_authed/collections/$collectionId'
 
 // Create/Update Routes
 
@@ -31,30 +30,23 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthedDashboardRoute = AuthedDashboardImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AuthedBookmarksRoute = AuthedBookmarksImport.update({
+  id: '/bookmarks',
+  path: '/bookmarks',
   getParentRoute: () => AuthedRoute,
 } as any)
 
-const AuthedDashboardIndexRoute = AuthedDashboardIndexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthedDashboardRoute,
+const AuthedCollectionsIndexRoute = AuthedCollectionsIndexImport.update({
+  id: '/collections/',
+  path: '/collections/',
+  getParentRoute: () => AuthedRoute,
 } as any)
 
-const AuthedDashboardCollectionsIndexRoute =
-  AuthedDashboardCollectionsIndexImport.update({
-    id: '/collections/',
-    path: '/collections/',
-    getParentRoute: () => AuthedDashboardRoute,
-  } as any)
-
-const AuthedDashboardCollectionsCollectionIdRoute =
-  AuthedDashboardCollectionsCollectionIdImport.update({
+const AuthedCollectionsCollectionIdRoute =
+  AuthedCollectionsCollectionIdImport.update({
     id: '/collections/$collectionId',
     path: '/collections/$collectionId',
-    getParentRoute: () => AuthedDashboardRoute,
+    getParentRoute: () => AuthedRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -75,62 +67,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthedImport
       parentRoute: typeof rootRoute
     }
-    '/_authed/dashboard': {
-      id: '/_authed/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthedDashboardImport
+    '/_authed/bookmarks': {
+      id: '/_authed/bookmarks'
+      path: '/bookmarks'
+      fullPath: '/bookmarks'
+      preLoaderRoute: typeof AuthedBookmarksImport
       parentRoute: typeof AuthedImport
     }
-    '/_authed/dashboard/': {
-      id: '/_authed/dashboard/'
-      path: '/'
-      fullPath: '/dashboard/'
-      preLoaderRoute: typeof AuthedDashboardIndexImport
-      parentRoute: typeof AuthedDashboardImport
-    }
-    '/_authed/dashboard/collections/$collectionId': {
-      id: '/_authed/dashboard/collections/$collectionId'
+    '/_authed/collections/$collectionId': {
+      id: '/_authed/collections/$collectionId'
       path: '/collections/$collectionId'
-      fullPath: '/dashboard/collections/$collectionId'
-      preLoaderRoute: typeof AuthedDashboardCollectionsCollectionIdImport
-      parentRoute: typeof AuthedDashboardImport
+      fullPath: '/collections/$collectionId'
+      preLoaderRoute: typeof AuthedCollectionsCollectionIdImport
+      parentRoute: typeof AuthedImport
     }
-    '/_authed/dashboard/collections/': {
-      id: '/_authed/dashboard/collections/'
+    '/_authed/collections/': {
+      id: '/_authed/collections/'
       path: '/collections'
-      fullPath: '/dashboard/collections'
-      preLoaderRoute: typeof AuthedDashboardCollectionsIndexImport
-      parentRoute: typeof AuthedDashboardImport
+      fullPath: '/collections'
+      preLoaderRoute: typeof AuthedCollectionsIndexImport
+      parentRoute: typeof AuthedImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface AuthedDashboardRouteChildren {
-  AuthedDashboardIndexRoute: typeof AuthedDashboardIndexRoute
-  AuthedDashboardCollectionsCollectionIdRoute: typeof AuthedDashboardCollectionsCollectionIdRoute
-  AuthedDashboardCollectionsIndexRoute: typeof AuthedDashboardCollectionsIndexRoute
-}
-
-const AuthedDashboardRouteChildren: AuthedDashboardRouteChildren = {
-  AuthedDashboardIndexRoute: AuthedDashboardIndexRoute,
-  AuthedDashboardCollectionsCollectionIdRoute:
-    AuthedDashboardCollectionsCollectionIdRoute,
-  AuthedDashboardCollectionsIndexRoute: AuthedDashboardCollectionsIndexRoute,
-}
-
-const AuthedDashboardRouteWithChildren = AuthedDashboardRoute._addFileChildren(
-  AuthedDashboardRouteChildren,
-)
-
 interface AuthedRouteChildren {
-  AuthedDashboardRoute: typeof AuthedDashboardRouteWithChildren
+  AuthedBookmarksRoute: typeof AuthedBookmarksRoute
+  AuthedCollectionsCollectionIdRoute: typeof AuthedCollectionsCollectionIdRoute
+  AuthedCollectionsIndexRoute: typeof AuthedCollectionsIndexRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
-  AuthedDashboardRoute: AuthedDashboardRouteWithChildren,
+  AuthedBookmarksRoute: AuthedBookmarksRoute,
+  AuthedCollectionsCollectionIdRoute: AuthedCollectionsCollectionIdRoute,
+  AuthedCollectionsIndexRoute: AuthedCollectionsIndexRoute,
 }
 
 const AuthedRouteWithChildren =
@@ -139,28 +111,26 @@ const AuthedRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
-  '/dashboard': typeof AuthedDashboardRouteWithChildren
-  '/dashboard/': typeof AuthedDashboardIndexRoute
-  '/dashboard/collections/$collectionId': typeof AuthedDashboardCollectionsCollectionIdRoute
-  '/dashboard/collections': typeof AuthedDashboardCollectionsIndexRoute
+  '/bookmarks': typeof AuthedBookmarksRoute
+  '/collections/$collectionId': typeof AuthedCollectionsCollectionIdRoute
+  '/collections': typeof AuthedCollectionsIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthedRouteWithChildren
-  '/dashboard': typeof AuthedDashboardIndexRoute
-  '/dashboard/collections/$collectionId': typeof AuthedDashboardCollectionsCollectionIdRoute
-  '/dashboard/collections': typeof AuthedDashboardCollectionsIndexRoute
+  '/bookmarks': typeof AuthedBookmarksRoute
+  '/collections/$collectionId': typeof AuthedCollectionsCollectionIdRoute
+  '/collections': typeof AuthedCollectionsIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
-  '/_authed/dashboard': typeof AuthedDashboardRouteWithChildren
-  '/_authed/dashboard/': typeof AuthedDashboardIndexRoute
-  '/_authed/dashboard/collections/$collectionId': typeof AuthedDashboardCollectionsCollectionIdRoute
-  '/_authed/dashboard/collections/': typeof AuthedDashboardCollectionsIndexRoute
+  '/_authed/bookmarks': typeof AuthedBookmarksRoute
+  '/_authed/collections/$collectionId': typeof AuthedCollectionsCollectionIdRoute
+  '/_authed/collections/': typeof AuthedCollectionsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -168,25 +138,18 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/dashboard'
-    | '/dashboard/'
-    | '/dashboard/collections/$collectionId'
-    | '/dashboard/collections'
+    | '/bookmarks'
+    | '/collections/$collectionId'
+    | '/collections'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | ''
-    | '/dashboard'
-    | '/dashboard/collections/$collectionId'
-    | '/dashboard/collections'
+  to: '/' | '' | '/bookmarks' | '/collections/$collectionId' | '/collections'
   id:
     | '__root__'
     | '/'
     | '/_authed'
-    | '/_authed/dashboard'
-    | '/_authed/dashboard/'
-    | '/_authed/dashboard/collections/$collectionId'
-    | '/_authed/dashboard/collections/'
+    | '/_authed/bookmarks'
+    | '/_authed/collections/$collectionId'
+    | '/_authed/collections/'
   fileRoutesById: FileRoutesById
 }
 
@@ -220,29 +183,22 @@ export const routeTree = rootRoute
     "/_authed": {
       "filePath": "_authed.tsx",
       "children": [
-        "/_authed/dashboard"
+        "/_authed/bookmarks",
+        "/_authed/collections/$collectionId",
+        "/_authed/collections/"
       ]
     },
-    "/_authed/dashboard": {
-      "filePath": "_authed/dashboard.tsx",
-      "parent": "/_authed",
-      "children": [
-        "/_authed/dashboard/",
-        "/_authed/dashboard/collections/$collectionId",
-        "/_authed/dashboard/collections/"
-      ]
+    "/_authed/bookmarks": {
+      "filePath": "_authed/bookmarks.tsx",
+      "parent": "/_authed"
     },
-    "/_authed/dashboard/": {
-      "filePath": "_authed/dashboard/index.tsx",
-      "parent": "/_authed/dashboard"
+    "/_authed/collections/$collectionId": {
+      "filePath": "_authed/collections/$collectionId.tsx",
+      "parent": "/_authed"
     },
-    "/_authed/dashboard/collections/$collectionId": {
-      "filePath": "_authed/dashboard/collections/$collectionId.tsx",
-      "parent": "/_authed/dashboard"
-    },
-    "/_authed/dashboard/collections/": {
-      "filePath": "_authed/dashboard/collections/index.tsx",
-      "parent": "/_authed/dashboard"
+    "/_authed/collections/": {
+      "filePath": "_authed/collections/index.tsx",
+      "parent": "/_authed"
     }
   }
 }

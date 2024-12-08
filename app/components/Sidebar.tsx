@@ -8,12 +8,12 @@ const Sidebar = () => {
   const links = [
     {
       title: "Home",
-      href: "/dashboard",
+      href: "/bookmarks",
       icon: Home2,
     },
     {
       title: "Collections",
-      href: "/dashboard/collections",
+      href: "/collections",
       icon: Folder2,
     },
   ];
@@ -40,15 +40,17 @@ const Sidebar = () => {
               "flex items-center gap-x-2 bg-transparent px-4 py-3 rounded-full text-gray-600 transition-colors",
               {
                 "!bg-accent/15 !text-accent font-medium":
-                  router.latestLocation.pathname === link.href,
+                  router.latestLocation.pathname.includes(link.href),
                 "hover:bg-accent/10 hover:text-accent":
-                  router.latestLocation.pathname !== link.href,
+                  !router.latestLocation.pathname.includes(link.href),
               }
             )}
           >
             <link.icon
               iconStyle={
-                router.latestLocation.pathname === link.href ? "Bold" : "Linear"
+                router.latestLocation.pathname.includes(link.href)
+                  ? "Bold"
+                  : "Linear"
               }
               size={20}
             />

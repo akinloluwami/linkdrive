@@ -5,7 +5,7 @@ import CreateCollection from "../modals/create-collection";
 import React from "react";
 
 const NoCollections = () => {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   return (
     <>
       <Modal

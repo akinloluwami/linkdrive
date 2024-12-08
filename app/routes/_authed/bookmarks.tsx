@@ -3,7 +3,7 @@ import BookmarkCard from "~/components/bookmark-card";
 import NoLinks from "~/components/empty-states/no-links";
 import { bookmarks } from "~/mock";
 
-export const Route = createFileRoute("/_authed/dashboard/")({
+export const Route = createFileRoute("/_authed/bookmarks")({
   component: RouteComponent,
 });
 

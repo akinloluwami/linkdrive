@@ -33,18 +33,18 @@ function Home() {
   const state = Route.useLoaderData();
 
   return (
-  <>
-  <Link to="/dashboard">Go to dashboard</Link>
-  <button
-      type="button"
-      onClick={() => {
-        updateCount({ data: 1 }).then(() => {
-          router.invalidate();
-        });
-      }}
-    >
-      Add??? 1 to {state}?
-    </button>
-  </>
+    <>
+      <Link to="/bookmarks">Go to dashboard</Link>
+      <button
+        type="button"
+        onClick={() => {
+          updateCount({ data: 1 }).then(() => {
+            router.invalidate();
+          });
+        }}
+      >
+        Add??? 1 to {state}?
+      </button>
+    </>
   );
 }
