@@ -25,7 +25,7 @@ const Modal: React.FC<ModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed h-screen w-full flex items-center justify-center bg-accent/10 backdrop-blur-xs z-20 top-0 right-0 inset-0"
+          className="fixed h-screen w-full flex items-center justify-center bg-accent/20 backdrop-blur-md z-20 top-0 right-0 inset-0"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={isMobile ? {} : { opacity: 0 }}
