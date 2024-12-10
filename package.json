@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "@tailwindcss/postcss": "^4.0.0-beta.6",
-    "@tailwindcss/vite": "^4.0.0-beta.4",
+    "@tailwindcss/vite": "^4.0.0-beta.6",
     "@tanstack/react-router": "^1.85.0",
     "@tanstack/start": "^1.85.0",
     "classnames": "^2.5.1",
