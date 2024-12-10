@@ -1,10 +1,10 @@
-import Modal from "./ui/modal";
+import Modal from "../ui/modal";
 import useGlobalModalStore from "@/stores/globalModalStore";
-import AddNew from "./modals/add-new";
+import AddNew from "../modals/add-new";
 import React from "react";
-import AddNewLink from "./modals/add-new-link";
+import AddNewLink from "../modals/add-new-link";
 import { AnimatePresence, motion } from "motion/react";
-import CreateCollection from "./modals/create-collection";
+import CreateCollection from "../modals/create-collection";
 
 const GlobalModal = () => {
   const { activeModal, setActiveModal } = useGlobalModalStore();
