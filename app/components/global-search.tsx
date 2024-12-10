@@ -71,7 +71,7 @@ const GlobalSearch = () => {
   }, []);
 
   return (
-    <div className="relative w-[600px]" ref={searchRef}>
+    <div className="relative lg:w-[600px] w-full" ref={searchRef}>
       <Input
         className="w-full"
         placeholder="Search bookmarks and collections..."
