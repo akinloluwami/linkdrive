@@ -12,7 +12,7 @@ export default defineConfig({
     ],
     build: {
       rollupOptions: {
-        external: ["@/components/sidebar"],
+        external: ["@/components/sidebar", "@/components/global-modal"],
       },
     },
   },
