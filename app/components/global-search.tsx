@@ -73,7 +73,7 @@ const GlobalSearch = () => {
   return (
     <div className="relative lg:w-[600px] w-full" ref={searchRef}>
       <Input
-        className="w-full"
+        className="w-full placeholder:text-gray-400"
         placeholder="Search bookmarks and collections..."
         value={query}
         onChange={handleInputChange}
