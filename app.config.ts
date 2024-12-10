@@ -10,10 +10,5 @@ export default defineConfig({
         projects: ["./tsconfig.json"],
       }),
     ],
-    build: {
-      rollupOptions: {
-        external: ["@/components/sidebar", "@/components/global-modal"],
-      },
-    },
   },
 });
