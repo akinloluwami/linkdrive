@@ -1,10 +1,10 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
-import BottomTab from "@/components/bottom-tab";
 import GlobalModal from "@/components/global-modal";
 import GlobalSearch from "@/components/global-search";
 import Sidebar from "@/components/sidebar";
 import { useAppSession } from "@/utils/session";
+import BottomTab from "@/components/bottom-tab";
 
 export const loginFn = createServerFn().handler(async () => {
   const user = {
