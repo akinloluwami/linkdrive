@@ -1,7 +1,6 @@
 import { defineConfig } from "@tanstack/start/config";
 import tsConfigPaths from "vite-tsconfig-paths";
 import tailwindcss from "@tailwindcss/vite";
-import path from "path";
 
 export default defineConfig({
   vite: {
@@ -11,9 +10,9 @@ export default defineConfig({
         projects: ["./tsconfig.json"],
       }),
     ],
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "./app"),
+    build: {
+      rollupOptions: {
+        external: ["@/components/sidebar"],
       },
     },
   },
