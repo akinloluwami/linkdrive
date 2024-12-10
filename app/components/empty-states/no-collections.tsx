@@ -8,7 +8,7 @@ const NoCollections = () => {
     <div className="w-full h-[calc(90vh-60px)] flex items-center justify-center flex-col space-y-2">
       <FolderFavouriteStar iconStyle="BoldDuotone" size={100} />
       <p className="font-medium text-2xl">Create Your First Collection</p>
-      <p>
+      <p className="text-center">
         Collections help you organize and manage your favorite links in one
         place.
       </p>
