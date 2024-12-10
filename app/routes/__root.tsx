@@ -5,16 +5,12 @@ import {
 } from "@tanstack/react-router";
 import { createServerFn, Meta, Scripts } from "@tanstack/start";
 import type { ReactNode } from "react";
-import appStyles from "../main.css?url";
 import { useAppSession } from "@/utils/session";
 import { loginFn } from "./_authed";
+import appStyles from "@/styles/app.css?url";
 
 const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
   const session = await useAppSession();
-
-  console.log("====================================");
-  console.log(session.data);
-  console.log("====================================");
 
   if (!session.data.userEmail) {
     return null;
