@@ -1,0 +1,140 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String                 @id @default(auto()) @map("_id") @db.ObjectId
+  email               String                 @unique
+  username            String                 @unique
+  passwordHash        String
+  name                String
+  createdAt           DateTime               @default(now())
+  updatedAt           DateTime               @updatedAt
+  collections         Collection[]
+  links               Link[]                 @relation("UserLinks")
+  sharedCollections   SharedUser[]
+  activities          Activity[]
+  notifications       Notification[]
+  sentInvitations     CollectionInvitation[] @relation("Inviter")
+  receivedInvitations CollectionInvitation[] @relation("Invitee")
+
+  otp        String
+  verifiedAt DateTime
+  otpExpiresAt DateTime
+}
+
+model SharedUser {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  collectionId String     @db.ObjectId
+  collection   Collection @relation(fields: [collectionId], references: [id])
+  userId       String     @db.ObjectId
+  user         User       @relation(fields: [userId], references: [id])
+  role         Role       @default(VIEWER)
+  createdAt    DateTime   @default(now())
+}
+
+model Collection {
+  id          String                 @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String?
+  userId      String                 @db.ObjectId
+  user        User                   @relation(fields: [userId], references: [id])
+  links       Link[]
+  isPublic    Boolean                @default(false)
+  shortCode   String?                @unique
+  isDefault   Boolean                @default(false)
+  sharedWith  SharedUser[]
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  invitations CollectionInvitation[]
+}
+
+enum Role {
+  VIEWER
+  EDITOR
+}
+
+model Link {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  url          String
+  title        String?
+  description  String?
+  collectionId String?     @db.ObjectId
+  collection   Collection? @relation(fields: [collectionId], references: [id])
+  userId       String      @db.ObjectId
+  user         User        @relation("UserLinks", fields: [userId], references: [id])
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Activity {
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String     @db.ObjectId
+  user       User       @relation(fields: [userId], references: [id])
+  action     Action // Enum for action types
+  targetType TargetType // Enum for the type of target (e.g., Link, Collection)
+  targetId   String?    @db.ObjectId // Optional for certain actions
+  metadata   Json? // Store additional data (e.g., link details or collection name)
+  createdAt  DateTime   @default(now())
+}
+
+enum Action {
+  CREATE
+  UPDATE
+  DELETE
+  SHARE
+  VIEW
+}
+
+enum TargetType {
+  LINK
+  COLLECTION
+  USER
+}
+
+model Notification {
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String           @db.ObjectId
+  user      User             @relation(fields: [userId], references: [id])
+  type      NotificationType
+  message   String
+  metadata  Json? // Optional additional data
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+}
+
+enum NotificationType {
+  COLLECTION_SHARE
+  ROLE_CHANGE
+  LINK_ADDED
+  SYSTEM
+}
+
+model CollectionInvitation {
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  collectionId String           @db.ObjectId
+  collection   Collection       @relation(fields: [collectionId], references: [id])
+  inviterId    String           @db.ObjectId
+  inviter      User             @relation("Inviter", fields: [inviterId], references: [id])
+  inviteeEmail String // Email of the invited user
+  inviteeId    String?          @db.ObjectId
+  invitee      User?            @relation("Invitee", fields: [inviteeId], references: [id])
+  role         Role // Role assigned upon acceptance (VIEWER or EDITOR)
+  status       InvitationStatus @default(PENDING)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  expiresAt    DateTime? // Optional expiration date
+  token        String           @unique
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  EXPIRED
+}
