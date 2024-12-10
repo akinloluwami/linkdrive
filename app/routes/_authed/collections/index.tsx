@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import NoCollections from "@/components/empty-states/no-collections";
 import { collections } from "@/mock";
-import CollectionCard from "@/components/cards/collection-card";
+import CollectionCard from "@/components/collection-card";
 
 export const Route = createFileRoute("/_authed/collections/")({
   component: RouteComponent,
