@@ -3,7 +3,7 @@ import { createServerFn } from "@tanstack/start";
 import BottomTab from "@/components/bottom-tab";
 import GlobalModal from "@/components/global-modal";
 import GlobalSearch from "@/components/global-search";
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/Sidebar";
 import { useAppSession } from "@/utils/session";
 
 export const loginFn = createServerFn().handler(async () => {
