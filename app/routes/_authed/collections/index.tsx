@@ -13,7 +13,7 @@ function RouteComponent() {
       {!collections.length ? (
         <NoCollections />
       ) : (
-        <div className="grid lg:grid-cols-3 grid-cols-2 gap-4">
+        <div className="grid lg:grid-cols-3 grid-cols-2 gap-4 my-6">
           {collections.map((collection, i) => (
             <CollectionCard key={i} {...collection} />
           ))}
