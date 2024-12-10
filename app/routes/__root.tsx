@@ -6,7 +6,7 @@ import {
 import { createServerFn, Meta, Scripts } from "@tanstack/start";
 import type { ReactNode } from "react";
 import "../main.css";
-import { useAppSession } from "~/utils/session";
+import { useAppSession } from "@/utils/session";
 import { loginFn } from "./_authed";
 
 const fetchUser = createServerFn({ method: "GET" }).handler(async () => {

@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
-import BookmarkCard from "~/components/bookmark-card";
-import NoLinks from "~/components/empty-states/no-links";
-import Button from "~/components/ui/button";
-import { bookmarks } from "~/mock";
-import useGlobalModalStore from "~/stores/globalModalStore";
+import BookmarkCard from "@/components/bookmark-card";
+import NoLinks from "@/components/empty-states/no-links";
+import Button from "@/components/ui/button";
+import { bookmarks } from "@/mock";
+import useGlobalModalStore from "@/stores/globalModalStore";
 import { isDesktop } from "react-device-detect";
 
 export const Route = createFileRoute("/_authed/bookmarks")({

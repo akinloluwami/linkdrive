@@ -1,5 +1,5 @@
 import Modal from "./ui/modal";
-import useGlobalModalStore from "~/stores/globalModalStore";
+import useGlobalModalStore from "@/stores/globalModalStore";
 import AddNew from "./modals/add-new";
 import React from "react";
 import AddNewLink from "./modals/add-new-link";

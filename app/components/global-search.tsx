@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Input from "./ui/input";
-import { bookmarks, collections } from "~/mock";
+import { bookmarks, collections } from "@/mock";
 import { FolderWithFiles, LinkMinimalistic2 } from "solar-icon-set";
 import { Link } from "@tanstack/react-router";
 

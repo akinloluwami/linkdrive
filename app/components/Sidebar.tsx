@@ -1,6 +1,6 @@
 import { Link, useRouter } from "@tanstack/react-router";
 import cn from "classnames";
-import useGlobalModalStore from "~/stores/globalModalStore";
+import useGlobalModalStore from "@/stores/globalModalStore";
 import { Plus } from "lucide-react";
 import { Bookmark, Folder2 } from "solar-icon-set";
 

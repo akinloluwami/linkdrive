@@ -1,4 +1,4 @@
-import { BookmarkProps } from "~/types";
+import { BookmarkProps } from "@/types";
 
 const BookmarkCard: React.FC<BookmarkProps> = ({
   href,

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { FolderWithFiles } from "solar-icon-set";
-import { CollectionProps } from "~/types";
+import { CollectionProps } from "@/types";
 import moment from "moment";
 import { isMobile } from "react-device-detect";
 

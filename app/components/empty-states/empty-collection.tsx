@@ -1,6 +1,6 @@
 import { FolderOpen } from "solar-icon-set";
 import Button from "../ui/button";
-import useGlobalModalStore from "~/stores/globalModalStore";
+import useGlobalModalStore from "@/stores/globalModalStore";
 
 const EmptyCollection = () => {
   const { setActiveModal } = useGlobalModalStore();

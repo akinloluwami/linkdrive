@@ -1,5 +1,5 @@
 import { FolderWithFiles, LinkMinimalistic2 } from "solar-icon-set";
-import useGlobalModalStore from "~/stores/globalModalStore";
+import useGlobalModalStore from "@/stores/globalModalStore";
 
 const AddNew = () => {
   const { setActiveModal, activeModal } = useGlobalModalStore();

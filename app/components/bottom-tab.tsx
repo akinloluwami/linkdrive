@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import React from "react";
 import { Bookmark, Folder2 } from "solar-icon-set";
-import useGlobalModalStore from "~/stores/globalModalStore";
+import useGlobalModalStore from "@/stores/globalModalStore";
 
 const BottomTab = () => {
   const links = [
