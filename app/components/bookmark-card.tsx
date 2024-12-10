@@ -12,13 +12,15 @@ const BookmarkCard: React.FC<BookmarkProps> = ({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="h-[300px] w-full bg-white shadow rounded-2xl p-3 flex flex-col justify-between"
+      className="lg:h-[300px] h-[250px] w-full bg-white shadow rounded-2xl p-3 flex flex-col justify-between"
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-x-2">
           <img src={favicon} alt="Favicon" className="w-6" />
           <div>
-            <p className="text-sm font-medium truncate w-[250px]">{title}</p>
+            <p className="text-sm font-medium truncate lg:w-[250px] w-[120px]">
+              {title}
+            </p>
             <p className="text-xs">{new URL(href).hostname}</p>
           </div>
         </div>
