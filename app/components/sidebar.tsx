@@ -25,7 +25,7 @@ const Sidebar = () => {
     <div className="py-3 px-4 w-full h-screen bg-[#f5f5f3] sticky top-0 left-0">
       <h1>LinkDrive</h1>
       <button
-        className="w-full px-8 mt-8 rounded-4xl bg-white text-accent shadow-2xl py-3 font-medium flex items-center justify-center gap-x-1 hover:bg-white/80 transition-colors"
+        className="w-full px-8 mt-8 rounded-3xl bg-white text-accent shadow-2xl py-3 font-medium flex items-center justify-center gap-x-1 hover:bg-white/80 transition-colors"
         onClick={() => setActiveModal("add-new")}
       >
         <Plus size={18} />
