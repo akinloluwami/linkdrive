@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-router";
 import { createServerFn, Meta, Scripts } from "@tanstack/start";
 import type { ReactNode } from "react";
-import "../main.css";
+import appStyles from "../main.css?url";
 import { useAppSession } from "@/utils/session";
 import { loginFn } from "./_authed";
 
@@ -39,7 +39,9 @@ export const Route = createRootRoute({
         title: "LinkDrive",
       },
     ],
+    links: [{ rel: "stylesheet", href: appStyles }],
   }),
+
   beforeLoad: async () => {
     await loginFn();
     const user = await fetchUser();
