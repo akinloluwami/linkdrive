@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -23,9 +24,12 @@ model User {
   sentInvitations     CollectionInvitation[] @relation("Inviter")
   receivedInvitations CollectionInvitation[] @relation("Invitee")
 
-  otp        String
-  verifiedAt DateTime
-  otpExpiresAt DateTime
+  emailVerified Boolean
+  image         String?
+  sessions      Session[]
+  accounts      Account[]
+
+  @@map("user")
 }
 
 model SharedUser {
@@ -36,6 +40,8 @@ model SharedUser {
   user         User       @relation(fields: [userId], references: [id])
   role         Role       @default(VIEWER)
   createdAt    DateTime   @default(now())
+
+  @@map("shared-user")
 }
 
 model Collection {
@@ -52,6 +58,8 @@ model Collection {
   createdAt   DateTime               @default(now())
   updatedAt   DateTime               @updatedAt
   invitations CollectionInvitation[]
+
+  @@map("collection")
 }
 
 enum Role {
@@ -70,6 +78,8 @@ model Link {
   user         User        @relation("UserLinks", fields: [userId], references: [id])
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
+
+  @@map("link")
 }
 
 model Activity {
@@ -81,6 +91,8 @@ model Activity {
   targetId   String?    @db.ObjectId // Optional for certain actions
   metadata   Json? // Store additional data (e.g., link details or collection name)
   createdAt  DateTime   @default(now())
+
+@@map("activity")
 }
 
 enum Action {
@@ -106,6 +118,8 @@ model Notification {
   metadata  Json? // Optional additional data
   isRead    Boolean          @default(false)
   createdAt DateTime         @default(now())
+
+  @@map("notification")
 }
 
 enum NotificationType {
@@ -130,6 +144,8 @@ model CollectionInvitation {
   updatedAt    DateTime         @updatedAt
   expiresAt    DateTime? // Optional expiration date
   token        String           @unique
+
+  @@map("collection-invitation")
 }
 
 enum InvitationStatus {
@@ -137,4 +153,49 @@ enum InvitationStatus {
   ACCEPTED
   REJECTED
   EXPIRED
+}
+
+model Session {
+  id        String   @id @map("_id")
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @map("_id")
+  accountId             String
+  providerId            String
+  userId                String @db.ObjectId
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id @map("_id")
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
 }
