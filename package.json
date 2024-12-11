@@ -13,8 +13,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^6.0.1",
     "@tanstack/react-router": "^1.85.0",
     "@tanstack/start": "^1.85.0",
+    "bcrypt": "^5.1.1",
+    "better-auth": "^1.0.15",
     "classnames": "^2.5.1",
     "lucide-react": "^0.468.0",
     "moment": "^2.30.1",
