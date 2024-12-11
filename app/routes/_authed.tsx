@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
 import GlobalModal from "@/components/global-modal";
 import GlobalSearch from "@/components/global-search";
@@ -26,21 +26,19 @@ export const loginFn = createServerFn().handler(async () => {
   });
 });
 
-export const Route = createFileRoute("/_authed")({
-  // loader: () => loginFn,
-  // beforeLoad: ({ context }) => {
-  //   //@ts-ignore
-  //   if (!context.user) {
-  //     throw new Error("Not authenticated");
-  //   }
-  // },
-  // errorComponent: ({ error }) => {
-  //   if (error.message === "Not authenticated") {
-  //     return <div>Login</div>;
-  //   }
+const isAuthenticated = () => false;
 
-  //   throw error;
-  // },
+export const Route = createFileRoute("/_authed")({
+  beforeLoad: async ({ location }) => {
+    if (!isAuthenticated()) {
+      throw redirect({
+        to: "/login",
+        search: {
+          redirect: location.href,
+        },
+      });
+    }
+  },
   component: () => {
     return (
       <>
