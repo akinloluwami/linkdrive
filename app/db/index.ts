@@ -1,16 +1,3 @@
-import {
-  createClient,
-  createdAt,
-  createSchema,
-  date,
-  string,
-} from "monarch-orm";
+import { PrismaClient } from "@prisma/client";
 
-const client = createClient("mongodb://localhost:27017");
-
-const UserSchema = createSchema("users", {
-  email: string(),
-  passwordHash: string(),
-  name: string(),
-  createdAt: date(),
-});
+export const prisma = new PrismaClient();
