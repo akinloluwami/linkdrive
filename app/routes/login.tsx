@@ -1,6 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import Button from "@/components/ui/button";
-import Input from "@/components/ui/input";
+import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import LoginForm from "@/components/auth/login";
 
 export const Route = createFileRoute("/login")({
   component: RouteComponent,
@@ -13,15 +12,7 @@ function RouteComponent() {
         <div className="w-full h-fit rounded-2xl bg-white shadow p-5 mb-5">
           <h1 className="font-semibold text-xl">Login to your LinkDrive</h1>
           <div className="mt-5 space-y-4">
-            <div className="">
-              <p className="font-medium">Email</p>
-              <Input />
-            </div>
-            <div className="">
-              <p className="font-medium">Password</p>
-              <Input type="password" />
-            </div>
-            <Button>Login</Button>
+            <LoginForm />
           </div>
         </div>
         <p>
