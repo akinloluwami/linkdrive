@@ -6,7 +6,6 @@ import {
 import { createServerFn, Meta, Scripts } from "@tanstack/start";
 import type { ReactNode } from "react";
 import { useAppSession } from "@/utils/session";
-import { loginFn } from "./_authed";
 import appStyles from "@/styles/app.css?url";
 
 const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
@@ -38,11 +37,6 @@ export const Route = createRootRoute({
     links: [{ rel: "stylesheet", href: appStyles }],
   }),
 
-  beforeLoad: async () => {
-    await loginFn();
-    const user = await fetchUser();
-    return { user };
-  },
   notFoundComponent: () => <>404</>,
   component: RootComponent,
 });
@@ -56,7 +50,6 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
-  const { user } = Route.useRouteContext();
   return (
     <html>
       <head>
