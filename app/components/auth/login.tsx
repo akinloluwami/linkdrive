@@ -10,25 +10,25 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const loginFn = async () => {
-    const { data, error } = await authClient.signIn.email(
+    setErrorMessage("");
+    await authClient.signIn.email(
       { email, password },
       {
-        onRequest: (ctx) => {
+        onRequest: () => {
           setLoading(true);
-          console.log("test...");
+        },
+        onResponse: () => {
+          setLoading(false);
         },
         onSuccess: (ctx) => {
           //redirect to the dashboard
           console.log(ctx);
         },
         onError: (ctx) => {
-          alert(ctx.error.message);
-          console.log("failed...");
-        },
-        onResponse: () => {
-          setLoading(false);
+          setErrorMessage(ctx.error.message);
         },
       }
     );
@@ -38,14 +38,14 @@ const LoginForm = () => {
     <>
       <div className="">
         <p className="font-medium">Email</p>
-        <Input name="email" onChange={(e) => setEmail(e.target.value)} />
+        <Input onChange={(e) => setEmail(e.target.value)} />
       </div>
       <div className="">
         <p className="font-medium">Password</p>
         <Input
           type="password"
-          name="password"
           onChange={(e) => setPassword(e.target.value)}
+          errorMessage={errorMessage}
         />
       </div>
       <Button onClick={loginFn} loading={loading}>
