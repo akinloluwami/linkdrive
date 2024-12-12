@@ -11,8 +11,6 @@ datasource db {
 model User {
   id                  String                 @id @default(auto()) @map("_id") @db.ObjectId
   email               String                 @unique
-  username            String                 @unique
-  passwordHash        String
   name                String
   createdAt           DateTime               @default(now())
   updatedAt           DateTime               @updatedAt
@@ -29,7 +27,10 @@ model User {
   sessions      Session[]
   accounts      Account[]
 
+  username String
+
   @@map("user")
+  @@unique([username])
 }
 
 model SharedUser {
@@ -92,7 +93,7 @@ model Activity {
   metadata   Json? // Store additional data (e.g., link details or collection name)
   createdAt  DateTime   @default(now())
 
-@@map("activity")
+  @@map("activity")
 }
 
 enum Action {
@@ -163,7 +164,7 @@ model Session {
   updatedAt DateTime
   ipAddress String?
   userAgent String?
-  userId    String @db.ObjectId
+  userId    String   @db.ObjectId
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
@@ -174,7 +175,7 @@ model Account {
   id                    String    @id @map("_id")
   accountId             String
   providerId            String
-  userId                String @db.ObjectId
+  userId                String    @db.ObjectId
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
