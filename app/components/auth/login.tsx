@@ -23,9 +23,8 @@ const LoginForm = () => {
         onResponse: () => {
           setLoading(false);
         },
-        onSuccess: (ctx) => {
-          //redirect to the dashboard
-          console.log(ctx);
+        onSuccess: () => {
+          router.navigate({ to: "/bookmarks" });
         },
         onError: (ctx) => {
           setErrorMessage(ctx.error.message);
