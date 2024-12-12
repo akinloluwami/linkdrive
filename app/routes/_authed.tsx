@@ -1,35 +1,23 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { createServerFn } from "@tanstack/start";
 import GlobalModal from "@/components/global-modal";
 import GlobalSearch from "@/components/global-search";
 import Sidebar from "@/components/sidebar";
-import { useAppSession } from "@/utils/session";
 import BottomTab from "@/components/bottom-tab";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { authClient } from "@/lib/auth-client";
 
-export const loginFn = createServerFn().handler(async () => {
-  const user = {
-    email: "akinkunmi@gmail.com",
-  };
-
-  if (!user) {
-    return {
-      error: true,
-      userNotFound: true,
-      message: "User not found",
-    };
-  }
-
-  const session = await useAppSession();
-
-  await session.update({
-    userEmail: user.email,
-  });
+const session = await authClient.getSession({
+  fetchOptions: {
+    headers: {},
+  },
 });
 
-const isAuthenticated = () => false;
+const isAuthenticated = () => {
+  console.log(session);
+  return !!session.data;
+};
 
 export const Route = createFileRoute("/_authed")({
-  /* beforeLoad: async ({ location }) => {
+  beforeLoad: async ({ location }) => {
     if (!isAuthenticated()) {
       throw redirect({
         to: "/login",
@@ -38,7 +26,7 @@ export const Route = createFileRoute("/_authed")({
         },
       });
     }
-  },*/
+  },
   component: () => {
     return (
       <>
