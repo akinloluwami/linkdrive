@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  id                  String                 @id @default(auto()) @map("_id") @db.ObjectId
+  id                  String                 @id  @map("_id")
   email               String                 @unique
   name                String
   createdAt           DateTime               @default(now())
@@ -34,10 +34,10 @@ model User {
 }
 
 model SharedUser {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  collectionId String     @db.ObjectId
+  id           String     @id  @map("_id")
+  collectionId String    
   collection   Collection @relation(fields: [collectionId], references: [id])
-  userId       String     @db.ObjectId
+  userId       String    
   user         User       @relation(fields: [userId], references: [id])
   role         Role       @default(VIEWER)
   createdAt    DateTime   @default(now())
@@ -46,10 +46,10 @@ model SharedUser {
 }
 
 model Collection {
-  id          String                 @id @default(auto()) @map("_id") @db.ObjectId
+  id          String                 @id  @map("_id")
   name        String
   description String?
-  userId      String                 @db.ObjectId
+  userId      String                
   user        User                   @relation(fields: [userId], references: [id])
   links       Link[]
   isPublic    Boolean                @default(false)
@@ -69,13 +69,13 @@ enum Role {
 }
 
 model Link {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  id           String      @id  @map("_id")
   url          String
   title        String?
   description  String?
-  collectionId String?     @db.ObjectId
+  collectionId String?    
   collection   Collection? @relation(fields: [collectionId], references: [id])
-  userId       String      @db.ObjectId
+  userId       String     
   user         User        @relation("UserLinks", fields: [userId], references: [id])
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
@@ -84,12 +84,12 @@ model Link {
 }
 
 model Activity {
-  id         String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String     @db.ObjectId
+  id         String     @id  @map("_id")
+  userId     String    
   user       User       @relation(fields: [userId], references: [id])
   action     Action // Enum for action types
   targetType TargetType // Enum for the type of target (e.g., Link, Collection)
-  targetId   String?    @db.ObjectId // Optional for certain actions
+  targetId   String?    // Optional for certain actions
   metadata   Json? // Store additional data (e.g., link details or collection name)
   createdAt  DateTime   @default(now())
 
@@ -111,8 +111,8 @@ enum TargetType {
 }
 
 model Notification {
-  id        String           @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String           @db.ObjectId
+  id        String           @id  @map("_id")
+  userId    String          
   user      User             @relation(fields: [userId], references: [id])
   type      NotificationType
   message   String
@@ -131,13 +131,13 @@ enum NotificationType {
 }
 
 model CollectionInvitation {
-  id           String           @id @default(auto()) @map("_id") @db.ObjectId
-  collectionId String           @db.ObjectId
+  id           String           @id  @map("_id")
+  collectionId String          
   collection   Collection       @relation(fields: [collectionId], references: [id])
-  inviterId    String           @db.ObjectId
+  inviterId    String          
   inviter      User             @relation("Inviter", fields: [inviterId], references: [id])
   inviteeEmail String // Email of the invited user
-  inviteeId    String?          @db.ObjectId
+  inviteeId    String?         
   invitee      User?            @relation("Invitee", fields: [inviteeId], references: [id])
   role         Role // Role assigned upon acceptance (VIEWER or EDITOR)
   status       InvitationStatus @default(PENDING)
@@ -164,7 +164,7 @@ model Session {
   updatedAt DateTime
   ipAddress String?
   userAgent String?
-  userId    String   @db.ObjectId
+  userId    String  
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([token])
@@ -175,7 +175,7 @@ model Account {
   id                    String    @id @map("_id")
   accountId             String
   providerId            String
-  userId                String    @db.ObjectId
+  userId                String   
   user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
