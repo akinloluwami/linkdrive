@@ -29,7 +29,7 @@ export const loginFn = createServerFn().handler(async () => {
 const isAuthenticated = () => false;
 
 export const Route = createFileRoute("/_authed")({
-  beforeLoad: async ({ location }) => {
+  /* beforeLoad: async ({ location }) => {
     if (!isAuthenticated()) {
       throw redirect({
         to: "/login",
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/_authed")({
         },
       });
     }
-  },
+  },*/
   component: () => {
     return (
       <>
