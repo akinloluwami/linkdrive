@@ -1,19 +1,25 @@
 import React from "react";
 import Button from "../ui/button";
 import Input from "../ui/input";
+import axios from "axios";
+import useGlobalModalStore from "@/stores/globalModalStore";
 
 const AddNewLink = () => {
   const [url, setUrl] = React.useState("");
   const [errors, setErrors] = React.useState<{ url: string }>({ url: "" });
   const [loading, setLoading] = React.useState(false);
+  const { setActiveModal } = useGlobalModalStore();
 
-  const handleAddLink = () => {
+  const handleAddLink = async () => {
     setErrors({ url: "" });
     setLoading(true);
-    setTimeout(() => {
-      setErrors({ url: "Something went wrong" });
+    try {
+      await axios.post("/api/bookmarks", { url });
+      setActiveModal(null);
+    } catch {
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (
