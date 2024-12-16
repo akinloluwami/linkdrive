@@ -3,22 +3,11 @@ import {
   ScrollRestoration,
   createRootRoute,
 } from "@tanstack/react-router";
-import { createServerFn, Meta, Scripts } from "@tanstack/start";
+import { Meta, Scripts } from "@tanstack/start";
 import type { ReactNode } from "react";
-import { useAppSession } from "@/utils/session";
 import appStyles from "@/styles/app.css?url";
-
-const fetchUser = createServerFn({ method: "GET" }).handler(async () => {
-  const session = await useAppSession();
-
-  if (!session.data.userEmail) {
-    return null;
-  }
-
-  return {
-    email: session.data.userEmail,
-  };
-});
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -41,10 +30,15 @@ export const Route = createRootRoute({
   component: RootComponent,
 });
 
+const queryClient = new QueryClient();
+
 function RootComponent() {
   return (
     <RootDocument>
-      <Outlet />
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools />
+        <Outlet />
+      </QueryClientProvider>
     </RootDocument>
   );
 }
