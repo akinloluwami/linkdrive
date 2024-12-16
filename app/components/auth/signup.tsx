@@ -6,6 +6,7 @@ import Button from "../ui/button";
 import { authClient } from "@/lib/auth-client";
 import Error from "../error";
 import { useRouter } from "@tanstack/react-router";
+import axios from "axios";
 
 const SignupForm = () => {
   const [name, setName] = useState("");
@@ -42,8 +43,9 @@ const SignupForm = () => {
         onResponse: () => {
           setLoading(false);
         },
-        onSuccess: (ctx) => {
+        onSuccess: async (ctx) => {
           //redirect to the dashboard
+          await axios.post("/api/collections/create-default");
           router.navigate({ to: "/bookmarks" });
         },
         onError: (ctx) => {
