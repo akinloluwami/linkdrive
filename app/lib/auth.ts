@@ -11,4 +11,7 @@ export const auth = betterAuth({
     provider: "mongodb",
   }),
   plugins: [username()],
+  advanced: {
+    generateId: false,
+  },
 });
