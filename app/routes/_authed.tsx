@@ -1,15 +1,11 @@
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 import GlobalModal from "@/components/global-modal";
 import GlobalSearch from "@/components/global-search";
 import Sidebar from "@/components/sidebar";
 import BottomTab from "@/components/bottom-tab";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { authClient } from "@/lib/auth-client";
 
-const session = await authClient.getSession({
-  fetchOptions: {
-    headers: {},
-  },
-});
+const session = await authClient.getSession();
 
 const isAuthenticated = () => {
   console.log(session);
@@ -17,16 +13,16 @@ const isAuthenticated = () => {
 };
 
 export const Route = createFileRoute("/_authed")({
-  beforeLoad: async ({ location }) => {
-    if (!isAuthenticated()) {
-      throw redirect({
-        to: "/login",
-        search: {
-          redirect: location.href,
-        },
-      });
-    }
-  },
+  // beforeLoad: async ({ location }) => {
+  //   if (!isAuthenticated()) {
+  //     throw redirect({
+  //       to: "/login",
+  //       search: {
+  //         redirect: location.href,
+  //       },
+  //     });
+  //   }
+  // },
   component: () => {
     return (
       <>
