@@ -4,7 +4,7 @@ const BookmarkCard: React.FC<BookmarkProps> = ({
   href,
   title,
   favicon,
-  image,
+  ogImage,
   date,
 }) => {
   return (
@@ -21,13 +21,13 @@ const BookmarkCard: React.FC<BookmarkProps> = ({
             <p className="text-sm font-medium truncate lg:w-[250px] w-[120px]">
               {title}
             </p>
-            <p className="text-xs">{new URL(href).hostname}</p>
+            {/* <p className="text-xs">{new URL(href).hostname}</p> */}
           </div>
         </div>
       </div>
       <div className="h-[200px]">
         <img
-          src={image}
+          src={ogImage || ""}
           alt="Preview"
           className="rounded-2xl object-cover h-full w-full"
         />
