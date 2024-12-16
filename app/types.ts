@@ -3,7 +3,7 @@ export interface BookmarkProps {
   title: string;
   favicon: string;
   description: string;
-  image: string;
+  ogImage: string;
   date: string;
 }
 
