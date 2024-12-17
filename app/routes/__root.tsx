@@ -8,6 +8,7 @@ import type { ReactNode } from "react";
 import appStyles from "@/styles/app.css?url";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "sonner";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -37,6 +38,7 @@ function RootComponent() {
     <RootDocument>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools />
+        <Toaster richColors />
         <Outlet />
       </QueryClientProvider>
     </RootDocument>
