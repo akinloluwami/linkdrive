@@ -6,16 +6,17 @@ import useGlobalModalStore from "@/stores/globalModalStore";
 import { isDesktop } from "react-device-detect";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { BookmarkProps } from "@/types";
 
 const Bookmarks = () => {
   const { setActiveModal } = useGlobalModalStore();
 
   const fetchBookmarks = async () => {
-    const response = await axios.get("/api/bookmarks");
+    const response = await axios("/api/bookmarks");
     return response.data;
   };
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<BookmarkProps[]>({
     queryKey: ["bookmarks"],
     queryFn: fetchBookmarks,
   });
