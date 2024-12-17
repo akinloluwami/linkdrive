@@ -1,10 +1,11 @@
 export interface BookmarkProps {
-  href: string;
+  id: string;
+  url: string;
   title: string;
   favicon: string;
   description: string;
   ogImage: string;
-  date: string;
+  createdAt: string;
 }
 
 export interface CollectionProps {
