@@ -58,6 +58,15 @@ export const APIRoute = createAPIFileRoute("/api/bookmarks")({
       },
     });
 
+    await prisma.activity.create({
+      data: {
+        action: "CREATE",
+        targetType: "LINK",
+        targetId: newBookmark.id,
+        userId: session?.user.id!,
+      },
+    });
+
     return json({ message: "New bookmark added!", newBookmark });
   },
 });
