@@ -12,7 +12,7 @@ const Input: React.FC<InputProps> = ({ children, errorMessage, ...props }) => {
       <input
         {...props}
         className={classNames(
-          "text-accent font-medium bg-white border-gray-100 outline-0 rounded-2xl py-3 w-full px-3 placeholder:text-accent/50 border-2 focus:border-accent",
+          "text-accent font-medium bg-white border-gray-100 outline-0 rounded-2xl py-3 w-full px-3 placeholder:text-accent/50 border-2 focus:border-accent disabled:opacity-70",
           props.className
         )}
       />
