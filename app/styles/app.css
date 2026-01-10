@@ -1,8 +1,0 @@
-@import url(https://fonts.googleapis.com/css?family=Geist:100,200,300,regular,500,600,700,800,900);
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-body {
-  font-family: "Geist", sans-serif;
-}
