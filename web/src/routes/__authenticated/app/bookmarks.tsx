@@ -1,19 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HugeiconsIcon } from "@hugeicons/react";
-import {
-  Search01Icon,
-  FilterIcon,
-  GridViewIcon,
-  MoreHorizontalIcon,
-  Link01Icon,
-  Calendar03Icon,
-} from "@hugeicons/core-free-icons";
+import { Search01Icon, FilterIcon, GridViewIcon } from "@hugeicons/core-free-icons";
+import { BookmarkCard, Bookmark } from "@/components/app/bookmark-card";
+import { EditBookmarkModal } from "@/components/app/modals/edit-bookmark-modal";
+import { useState } from "react";
+import type { Tag } from "@/components/ui/tag-picker";
 
 export const Route = createFileRoute("/__authenticated/app/bookmarks")({
   component: RouteComponent,
 });
 
-const bookmarks = [
+// Mock tags - in a real app this would come from state/API
+const availableTags: Tag[] = [
+  { id: 1, name: "react", color: "#61dafb" },
+  { id: 2, name: "typescript", color: "#3178c6" },
+  { id: 3, name: "javascript", color: "#f7df1e" },
+  { id: 4, name: "css", color: "#264de4" },
+  { id: 5, name: "design", color: "#ff6b6b" },
+  { id: 6, name: "tools", color: "#10b981" },
+  { id: 7, name: "docs", color: "#8b5cf6" },
+  { id: 8, name: "tutorial", color: "#f59e0b" },
+];
+
+const initialBookmarks: Bookmark[] = [
   {
     id: 1,
     title: "React Documentation",
@@ -63,6 +72,44 @@ const bookmarks = [
 ];
 
 function RouteComponent() {
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(initialBookmarks);
+  const [editingBookmark, setEditingBookmark] = useState<Bookmark | null>(null);
+
+  const handleEdit = (bookmark: Bookmark) => {
+    setEditingBookmark(bookmark);
+  };
+
+  const handleSaveEdit = (updatedBookmark: Bookmark) => {
+    setBookmarks((prev) =>
+      prev.map((b) => (b.id === updatedBookmark.id ? updatedBookmark : b))
+    );
+  };
+
+  const handleDelete = (bookmark: Bookmark) => {
+    setBookmarks((prev) => prev.filter((b) => b.id !== bookmark.id));
+  };
+
+  const handleAddToCollection = (bookmark: Bookmark) => {
+    console.log("Add to collection:", bookmark);
+  };
+
+  const handleToggleFavorite = (bookmark: Bookmark) => {
+    console.log("Toggle favorite:", bookmark);
+  };
+
+  const handleCopyLink = (bookmark: Bookmark) => {
+    navigator.clipboard.writeText(bookmark.url);
+  };
+
+  const handleShare = (bookmark: Bookmark) => {
+    console.log("Share bookmark:", bookmark);
+  };
+
+  const handleCreateTag = (name: string) => {
+    console.log("Creating tag:", name);
+    // In a real app, this would create the tag and refresh the list
+  };
+
   return (
     <div className="h-full">
       <div className="flex items-center justify-between mb-6">
@@ -97,72 +144,27 @@ function RouteComponent() {
 
       <div className="space-y-3">
         {bookmarks.map((bookmark) => (
-          <div
+          <BookmarkCard
             key={bookmark.id}
-            className="group p-4 bg-gray-50/50 hover:bg-gray-50 border border-gray-100 rounded-2xl transition-colors"
-          >
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 bg-white rounded-xl border border-gray-100 flex items-center justify-center shrink-0">
-                <img
-                  src={bookmark.favicon}
-                  alt=""
-                  className="w-5 h-5"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
-                />
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <h3 className="font-medium text-gray-900 truncate">
-                      {bookmark.title}
-                    </h3>
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <HugeiconsIcon
-                        icon={Link01Icon}
-                        className="w-3 h-3 text-gray-400"
-                      />
-                      <span className="text-xs text-gray-400 truncate">
-                        {bookmark.url}
-                      </span>
-                    </div>
-                  </div>
-                  <button className="opacity-0 group-hover:opacity-100 p-1.5 hover:bg-gray-200 rounded-lg transition-all">
-                    <HugeiconsIcon
-                      icon={MoreHorizontalIcon}
-                      className="w-4 h-4 text-gray-500"
-                    />
-                  </button>
-                </div>
-
-                <p className="text-sm text-gray-500 mt-2 line-clamp-1">
-                  {bookmark.description}
-                </p>
-
-                <div className="flex items-center gap-3 mt-3">
-                  <div className="flex items-center gap-1.5">
-                    {bookmark.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded-md text-xs"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-1 text-xs text-gray-400">
-                    <HugeiconsIcon icon={Calendar03Icon} className="w-3 h-3" />
-                    <span>{bookmark.createdAt}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            bookmark={bookmark}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+            onAddToCollection={handleAddToCollection}
+            onToggleFavorite={handleToggleFavorite}
+            onCopyLink={handleCopyLink}
+            onShare={handleShare}
+          />
         ))}
       </div>
+
+      <EditBookmarkModal
+        isOpen={!!editingBookmark}
+        bookmark={editingBookmark}
+        availableTags={availableTags}
+        onClose={() => setEditingBookmark(null)}
+        onSave={handleSaveEdit}
+        onCreateTag={handleCreateTag}
+      />
     </div>
   );
 }
