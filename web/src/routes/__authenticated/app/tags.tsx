@@ -6,12 +6,14 @@ import {
   LabelImportantIcon,
   Bookmark01Icon,
 } from "@hugeicons/core-free-icons";
+import { useState } from "react";
+import { CreateTagModal } from "../../../components/app/modals/create-tag-modal";
 
 export const Route = createFileRoute("/__authenticated/app/tags")({
   component: RouteComponent,
 });
 
-const tags = [
+const initialTags = [
   { id: 1, name: "react", bookmarkCount: 15, color: "#61dafb" },
   { id: 2, name: "typescript", bookmarkCount: 12, color: "#3178c6" },
   { id: 3, name: "javascript", bookmarkCount: 18, color: "#f7df1e" },
@@ -27,6 +29,24 @@ const tags = [
 ];
 
 function RouteComponent() {
+  const [tags, setTags] = useState(initialTags);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  const handleCreateTags = (newTags: { name: string; color: string }[]) => {
+    setTags((prev) => {
+      let maxId = Math.max(...prev.map((t) => t.id));
+      return [
+        ...prev,
+        ...newTags.map((tag) => ({
+          id: ++maxId,
+          name: tag.name,
+          color: tag.color,
+          bookmarkCount: 0,
+        })),
+      ];
+    });
+  };
+
   return (
     <div className="h-full">
       <div className="flex items-center justify-between mb-6">
@@ -34,7 +54,10 @@ function RouteComponent() {
           <h1 className="text-2xl font-bold text-gray-900">Tags</h1>
           <p className="text-sm text-gray-500 mt-1">{tags.length} tags</p>
         </div>
-        <button className="flex items-center gap-2 px-4 py-2.5 bg-accent hover:bg-accent-hover text-white rounded-xl transition-colors font-medium text-sm">
+        <button
+          onClick={() => setIsCreateModalOpen(true)}
+          className="flex items-center gap-2 px-4 py-2.5 bg-accent hover:bg-accent-hover text-white rounded-xl transition-colors font-medium text-sm"
+        >
           <HugeiconsIcon icon={Add01Icon} className="w-4 h-4" />
           New Tag
         </button>
@@ -83,6 +106,12 @@ function RouteComponent() {
           </div>
         ))}
       </div>
+
+      <CreateTagModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onCreate={handleCreateTags}
+      />
     </div>
   );
 }
