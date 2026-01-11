@@ -10,6 +10,30 @@ import {
   Settings03Icon,
   Add01Icon,
 } from "@hugeicons/core-free-icons";
+import { useState } from "react";
+import { AddBookmarkModal, Collection, Tag } from "@/components/app/modals/add-bookmark-modal";
+
+// Mock collections - in a real app this would come from state/API
+const collections: Collection[] = [
+  { id: 1, name: "Development", color: "#3b82f6" },
+  { id: 2, name: "Design", color: "#ec4899" },
+  { id: 3, name: "Reading List", color: "#8b5cf6" },
+  { id: 4, name: "Tools", color: "#10b981" },
+  { id: 5, name: "Learning", color: "#f59e0b" },
+  { id: 6, name: "Work", color: "#6366f1" },
+];
+
+// Mock tags - in a real app this would come from state/API
+const availableTags: Tag[] = [
+  { id: 1, name: "react", color: "#61dafb" },
+  { id: 2, name: "typescript", color: "#3178c6" },
+  { id: 3, name: "javascript", color: "#f7df1e" },
+  { id: 4, name: "css", color: "#264de4" },
+  { id: 5, name: "design", color: "#ff6b6b" },
+  { id: 6, name: "tools", color: "#10b981" },
+  { id: 7, name: "docs", color: "#8b5cf6" },
+  { id: 8, name: "tutorial", color: "#f59e0b" },
+];
 
 export const Route = createFileRoute("/__authenticated/app")({
   component: RouteComponent,
@@ -25,6 +49,29 @@ const navItems = [
 ];
 
 function RouteComponent() {
+  const [isAddBookmarkOpen, setIsAddBookmarkOpen] = useState(false);
+
+  const handleAddBookmark = (bookmark: {
+    title: string;
+    url: string;
+    description: string;
+    tags: string[];
+    collectionId?: number;
+  }) => {
+    console.log("Adding bookmark:", bookmark);
+    // In a real app, this would save to the backend
+  };
+
+  const handleCreateCollection = (name: string) => {
+    console.log("Creating collection:", name);
+    // In a real app, this would create the collection and refresh the list
+  };
+
+  const handleCreateTag = (name: string) => {
+    console.log("Creating tag:", name);
+    // In a real app, this would create the tag and refresh the list
+  };
+
   return (
     <div className="h-screen overflow-hidden bg-linear-to-br from-sky-50 via-blue-50 to-indigo-100">
       <div className="flex h-full">
@@ -55,7 +102,10 @@ function RouteComponent() {
             </div>
 
             <div className="pt-4 border-t border-gray-100">
-              <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent-hover text-white rounded-2xl transition-colors font-medium text-sm">
+              <button
+                onClick={() => setIsAddBookmarkOpen(true)}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-accent hover:bg-accent-hover text-white rounded-2xl transition-colors font-medium text-sm"
+              >
                 <HugeiconsIcon icon={Add01Icon} className="w-4 h-4" />
                 Add Bookmark
               </button>
@@ -76,6 +126,16 @@ function RouteComponent() {
           </div>
         </div>
       </div>
+
+      <AddBookmarkModal
+        isOpen={isAddBookmarkOpen}
+        collections={collections}
+        availableTags={availableTags}
+        onClose={() => setIsAddBookmarkOpen(false)}
+        onAdd={handleAddBookmark}
+        onCreateCollection={handleCreateCollection}
+        onCreateTag={handleCreateTag}
+      />
     </div>
   );
 }
