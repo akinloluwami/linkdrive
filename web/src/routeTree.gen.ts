@@ -16,8 +16,9 @@ import { Route as _authenticatedAppTrashRouteImport } from './routes/__authentic
 import { Route as _authenticatedAppTagsRouteImport } from './routes/__authenticated/app/tags'
 import { Route as _authenticatedAppRecentRouteImport } from './routes/__authenticated/app/recent'
 import { Route as _authenticatedAppFavoritesRouteImport } from './routes/__authenticated/app/favorites'
-import { Route as _authenticatedAppCollectionsRouteImport } from './routes/__authenticated/app/collections'
 import { Route as _authenticatedAppBookmarksRouteImport } from './routes/__authenticated/app/bookmarks'
+import { Route as _authenticatedAppCollectionsIndexRouteImport } from './routes/__authenticated/app/collections/index'
+import { Route as _authenticatedAppCollectionsSlugRouteImport } from './routes/__authenticated/app/collections/$slug'
 
 const _authenticatedRoute = _authenticatedRouteImport.update({
   id: '/__authenticated',
@@ -54,16 +55,22 @@ const _authenticatedAppFavoritesRoute =
     path: '/favorites',
     getParentRoute: () => _authenticatedAppRoute,
   } as any)
-const _authenticatedAppCollectionsRoute =
-  _authenticatedAppCollectionsRouteImport.update({
-    id: '/collections',
-    path: '/collections',
-    getParentRoute: () => _authenticatedAppRoute,
-  } as any)
 const _authenticatedAppBookmarksRoute =
   _authenticatedAppBookmarksRouteImport.update({
     id: '/bookmarks',
     path: '/bookmarks',
+    getParentRoute: () => _authenticatedAppRoute,
+  } as any)
+const _authenticatedAppCollectionsIndexRoute =
+  _authenticatedAppCollectionsIndexRouteImport.update({
+    id: '/collections/',
+    path: '/collections/',
+    getParentRoute: () => _authenticatedAppRoute,
+  } as any)
+const _authenticatedAppCollectionsSlugRoute =
+  _authenticatedAppCollectionsSlugRouteImport.update({
+    id: '/collections/$slug',
+    path: '/collections/$slug',
     getParentRoute: () => _authenticatedAppRoute,
   } as any)
 
@@ -71,21 +78,23 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof _authenticatedAppRouteWithChildren
   '/app/bookmarks': typeof _authenticatedAppBookmarksRoute
-  '/app/collections': typeof _authenticatedAppCollectionsRoute
   '/app/favorites': typeof _authenticatedAppFavoritesRoute
   '/app/recent': typeof _authenticatedAppRecentRoute
   '/app/tags': typeof _authenticatedAppTagsRoute
   '/app/trash': typeof _authenticatedAppTrashRoute
+  '/app/collections/$slug': typeof _authenticatedAppCollectionsSlugRoute
+  '/app/collections': typeof _authenticatedAppCollectionsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof _authenticatedAppRouteWithChildren
   '/app/bookmarks': typeof _authenticatedAppBookmarksRoute
-  '/app/collections': typeof _authenticatedAppCollectionsRoute
   '/app/favorites': typeof _authenticatedAppFavoritesRoute
   '/app/recent': typeof _authenticatedAppRecentRoute
   '/app/tags': typeof _authenticatedAppTagsRoute
   '/app/trash': typeof _authenticatedAppTrashRoute
+  '/app/collections/$slug': typeof _authenticatedAppCollectionsSlugRoute
+  '/app/collections': typeof _authenticatedAppCollectionsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -93,11 +102,12 @@ export interface FileRoutesById {
   '/__authenticated': typeof _authenticatedRouteWithChildren
   '/__authenticated/app': typeof _authenticatedAppRouteWithChildren
   '/__authenticated/app/bookmarks': typeof _authenticatedAppBookmarksRoute
-  '/__authenticated/app/collections': typeof _authenticatedAppCollectionsRoute
   '/__authenticated/app/favorites': typeof _authenticatedAppFavoritesRoute
   '/__authenticated/app/recent': typeof _authenticatedAppRecentRoute
   '/__authenticated/app/tags': typeof _authenticatedAppTagsRoute
   '/__authenticated/app/trash': typeof _authenticatedAppTrashRoute
+  '/__authenticated/app/collections/$slug': typeof _authenticatedAppCollectionsSlugRoute
+  '/__authenticated/app/collections/': typeof _authenticatedAppCollectionsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -105,32 +115,35 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/app/bookmarks'
-    | '/app/collections'
     | '/app/favorites'
     | '/app/recent'
     | '/app/tags'
     | '/app/trash'
+    | '/app/collections/$slug'
+    | '/app/collections'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/app'
     | '/app/bookmarks'
-    | '/app/collections'
     | '/app/favorites'
     | '/app/recent'
     | '/app/tags'
     | '/app/trash'
+    | '/app/collections/$slug'
+    | '/app/collections'
   id:
     | '__root__'
     | '/'
     | '/__authenticated'
     | '/__authenticated/app'
     | '/__authenticated/app/bookmarks'
-    | '/__authenticated/app/collections'
     | '/__authenticated/app/favorites'
     | '/__authenticated/app/recent'
     | '/__authenticated/app/tags'
     | '/__authenticated/app/trash'
+    | '/__authenticated/app/collections/$slug'
+    | '/__authenticated/app/collections/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -189,13 +202,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedAppFavoritesRouteImport
       parentRoute: typeof _authenticatedAppRoute
     }
-    '/__authenticated/app/collections': {
-      id: '/__authenticated/app/collections'
-      path: '/collections'
-      fullPath: '/app/collections'
-      preLoaderRoute: typeof _authenticatedAppCollectionsRouteImport
-      parentRoute: typeof _authenticatedAppRoute
-    }
     '/__authenticated/app/bookmarks': {
       id: '/__authenticated/app/bookmarks'
       path: '/bookmarks'
@@ -203,25 +209,42 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof _authenticatedAppBookmarksRouteImport
       parentRoute: typeof _authenticatedAppRoute
     }
+    '/__authenticated/app/collections/': {
+      id: '/__authenticated/app/collections/'
+      path: '/collections'
+      fullPath: '/app/collections'
+      preLoaderRoute: typeof _authenticatedAppCollectionsIndexRouteImport
+      parentRoute: typeof _authenticatedAppRoute
+    }
+    '/__authenticated/app/collections/$slug': {
+      id: '/__authenticated/app/collections/$slug'
+      path: '/collections/$slug'
+      fullPath: '/app/collections/$slug'
+      preLoaderRoute: typeof _authenticatedAppCollectionsSlugRouteImport
+      parentRoute: typeof _authenticatedAppRoute
+    }
   }
 }
 
 interface _authenticatedAppRouteChildren {
   _authenticatedAppBookmarksRoute: typeof _authenticatedAppBookmarksRoute
-  _authenticatedAppCollectionsRoute: typeof _authenticatedAppCollectionsRoute
   _authenticatedAppFavoritesRoute: typeof _authenticatedAppFavoritesRoute
   _authenticatedAppRecentRoute: typeof _authenticatedAppRecentRoute
   _authenticatedAppTagsRoute: typeof _authenticatedAppTagsRoute
   _authenticatedAppTrashRoute: typeof _authenticatedAppTrashRoute
+  _authenticatedAppCollectionsSlugRoute: typeof _authenticatedAppCollectionsSlugRoute
+  _authenticatedAppCollectionsIndexRoute: typeof _authenticatedAppCollectionsIndexRoute
 }
 
 const _authenticatedAppRouteChildren: _authenticatedAppRouteChildren = {
   _authenticatedAppBookmarksRoute: _authenticatedAppBookmarksRoute,
-  _authenticatedAppCollectionsRoute: _authenticatedAppCollectionsRoute,
   _authenticatedAppFavoritesRoute: _authenticatedAppFavoritesRoute,
   _authenticatedAppRecentRoute: _authenticatedAppRecentRoute,
   _authenticatedAppTagsRoute: _authenticatedAppTagsRoute,
   _authenticatedAppTrashRoute: _authenticatedAppTrashRoute,
+  _authenticatedAppCollectionsSlugRoute: _authenticatedAppCollectionsSlugRoute,
+  _authenticatedAppCollectionsIndexRoute:
+    _authenticatedAppCollectionsIndexRoute,
 }
 
 const _authenticatedAppRouteWithChildren =
