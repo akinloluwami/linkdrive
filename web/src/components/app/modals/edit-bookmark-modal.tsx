@@ -2,8 +2,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { Cancel01Icon, Link01Icon } from "@hugeicons/core-free-icons";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import type { Bookmark } from "@/components/app/bookmark-card";
-import { TagPicker, Tag } from "@/components/ui/tag-picker";
+import type { Bookmark } from "@/stores/bookmarks";
+import { TagPicker } from "@/components/ui/tag-picker";
+import type { Tag } from "@/stores/tags";
 
 interface EditBookmarkModalProps {
   isOpen: boolean;
