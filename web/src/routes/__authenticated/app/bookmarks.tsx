@@ -1,96 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Search01Icon, FilterIcon, GridViewIcon } from "@hugeicons/core-free-icons";
-import { BookmarkCard, Bookmark } from "@/components/app/bookmark-card";
+import { BookmarkCard } from "@/components/app/bookmark-card";
 import { EditBookmarkModal } from "@/components/app/modals/edit-bookmark-modal";
+import { AddToCollectionModal } from "@/components/app/modals/add-to-collection-modal";
 import { useState } from "react";
-import type { Tag } from "@/components/ui/tag-picker";
+import { useBookmarks, type Bookmark } from "@/stores/bookmarks";
+import { useCollections } from "@/stores/collections";
+import { useTags } from "@/stores/tags";
 
 export const Route = createFileRoute("/__authenticated/app/bookmarks")({
   component: RouteComponent,
 });
 
-// Mock tags - in a real app this would come from state/API
-const availableTags: Tag[] = [
-  { id: 1, name: "react", color: "#61dafb" },
-  { id: 2, name: "typescript", color: "#3178c6" },
-  { id: 3, name: "javascript", color: "#f7df1e" },
-  { id: 4, name: "css", color: "#264de4" },
-  { id: 5, name: "design", color: "#ff6b6b" },
-  { id: 6, name: "tools", color: "#10b981" },
-  { id: 7, name: "docs", color: "#8b5cf6" },
-  { id: 8, name: "tutorial", color: "#f59e0b" },
-];
-
-const initialBookmarks: Bookmark[] = [
-  {
-    id: 1,
-    title: "React Documentation",
-    url: "https://react.dev",
-    description: "The library for web and native user interfaces",
-    favicon: "https://react.dev/favicon.ico",
-    tags: ["react", "docs"],
-    createdAt: "2026-01-10",
-  },
-  {
-    id: 2,
-    title: "Tailwind CSS",
-    url: "https://tailwindcss.com",
-    description: "Rapidly build modern websites without ever leaving your HTML",
-    favicon: "https://tailwindcss.com/favicons/favicon.ico",
-    tags: ["css", "design"],
-    createdAt: "2026-01-09",
-  },
-  {
-    id: 3,
-    title: "GitHub",
-    url: "https://github.com",
-    description: "Where the world builds software",
-    favicon: "https://github.com/favicon.ico",
-    tags: ["dev", "git"],
-    createdAt: "2026-01-08",
-  },
-  {
-    id: 4,
-    title: "TypeScript Handbook",
-    url: "https://www.typescriptlang.org/docs/handbook",
-    description:
-      "The TypeScript Handbook is a comprehensive guide to the TypeScript language",
-    favicon: "https://www.typescriptlang.org/favicon.ico",
-    tags: ["typescript", "docs"],
-    createdAt: "2026-01-07",
-  },
-  {
-    id: 5,
-    title: "Vercel",
-    url: "https://vercel.com",
-    description: "Develop. Preview. Ship.",
-    favicon: "https://vercel.com/favicon.ico",
-    tags: ["hosting", "deploy"],
-    createdAt: "2026-01-06",
-  },
-];
-
 function RouteComponent() {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>(initialBookmarks);
+  const { bookmarks, updateBookmark, deleteBookmark, addToCollection } = useBookmarks();
+  const { collections, addCollection } = useCollections();
+  const { tags, addTag } = useTags();
   const [editingBookmark, setEditingBookmark] = useState<Bookmark | null>(null);
+  const [addingToCollectionBookmark, setAddingToCollectionBookmark] = useState<Bookmark | null>(null);
 
   const handleEdit = (bookmark: Bookmark) => {
     setEditingBookmark(bookmark);
   };
 
   const handleSaveEdit = (updatedBookmark: Bookmark) => {
-    setBookmarks((prev) =>
-      prev.map((b) => (b.id === updatedBookmark.id ? updatedBookmark : b))
-    );
+    updateBookmark(updatedBookmark.id, updatedBookmark);
   };
 
   const handleDelete = (bookmark: Bookmark) => {
-    setBookmarks((prev) => prev.filter((b) => b.id !== bookmark.id));
+    deleteBookmark(bookmark.id);
   };
 
   const handleAddToCollection = (bookmark: Bookmark) => {
-    console.log("Add to collection:", bookmark);
+    setAddingToCollectionBookmark(bookmark);
+  };
+
+  const handleAddToCollectionConfirm = (bookmarkId: string, collectionId: string) => {
+    addToCollection(bookmarkId, collectionId);
   };
 
   const handleToggleFavorite = (bookmark: Bookmark) => {
@@ -106,8 +53,20 @@ function RouteComponent() {
   };
 
   const handleCreateTag = (name: string) => {
-    console.log("Creating tag:", name);
-    // In a real app, this would create the tag and refresh the list
+    const colors = ["#61dafb", "#3178c6", "#f7df1e", "#264de4", "#ff6b6b", "#10b981", "#8b5cf6", "#f59e0b"];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    addTag({ name, color });
+  };
+
+  const handleCreateCollection = (name: string) => {
+    const colors = ["#3b82f6", "#ec4899", "#10b981", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4", "#84cc16"];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    addCollection({ 
+      name, 
+      description: "", 
+      color, 
+      isPublic: false 
+    });
   };
 
   return (
@@ -160,10 +119,19 @@ function RouteComponent() {
       <EditBookmarkModal
         isOpen={!!editingBookmark}
         bookmark={editingBookmark}
-        availableTags={availableTags}
+        availableTags={tags}
         onClose={() => setEditingBookmark(null)}
         onSave={handleSaveEdit}
         onCreateTag={handleCreateTag}
+      />
+
+      <AddToCollectionModal
+        isOpen={!!addingToCollectionBookmark}
+        bookmark={addingToCollectionBookmark}
+        collections={collections}
+        onClose={() => setAddingToCollectionBookmark(null)}
+        onAddToCollection={handleAddToCollectionConfirm}
+        onCreateCollection={handleCreateCollection}
       />
     </div>
   );
