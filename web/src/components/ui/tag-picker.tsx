@@ -9,12 +9,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-
-export interface Tag {
-  id: number;
-  name: string;
-  color: string;
-}
+import type { Tag } from "@/stores/tags";
 
 interface TagPickerProps {
   availableTags: Tag[];
