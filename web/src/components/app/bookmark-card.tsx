@@ -11,17 +11,7 @@ import {
   Share01Icon,
 } from "@hugeicons/core-free-icons";
 import { DropdownMenu } from "@/components/ui/dropdown-menu";
-
-export interface Bookmark {
-  id: number;
-  title: string;
-  url: string;
-  description: string;
-  favicon: string;
-  tags: string[];
-  createdAt: string;
-  collectionId?: number;
-}
+import type { Bookmark } from "@/stores/bookmarks";
 
 interface BookmarkCardProps {
   bookmark: Bookmark;
