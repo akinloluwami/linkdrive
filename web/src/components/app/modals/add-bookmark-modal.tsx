@@ -10,15 +10,9 @@ import {
 } from "@hugeicons/core-free-icons";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { TagPicker, Tag } from "@/components/ui/tag-picker";
-
-export type { Tag } from "@/components/ui/tag-picker";
-
-export interface Collection {
-  id: number;
-  name: string;
-  color: string;
-}
+import { TagPicker } from "@/components/ui/tag-picker";
+import type { Tag } from "@/stores/tags";
+import type { Collection } from "@/stores/collections";
 
 interface AddBookmarkModalProps {
   isOpen: boolean;
@@ -30,7 +24,7 @@ interface AddBookmarkModalProps {
     url: string;
     description: string;
     tags: string[];
-    collectionId?: number;
+    collectionId?: string;
   }) => void;
   onCreateCollection?: (name: string) => void;
   onCreateTag?: (name: string) => void;
@@ -43,8 +37,8 @@ function CollectionPicker({
   onCreateCollection,
 }: {
   collections: Collection[];
-  selectedId: number | null;
-  onSelect: (id: number | null) => void;
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
   onCreateCollection?: (name: string) => void;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -54,8 +48,8 @@ function CollectionPicker({
   const popoverRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const visible = collections.slice(0, 3);
-  const hasMore = collections.length > 3;
+  const visible = collections.slice(0, 6);
+  const hasMore = collections.length > 6;
   const filtered = collections.filter((c) =>
     c.name.toLowerCase().includes(search.toLowerCase())
   );
@@ -141,7 +135,7 @@ function CollectionPicker({
             className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200"
           >
             <HugeiconsIcon icon={MoreHorizontalIcon} className="w-4 h-4" />
-            <span>{collections.length - 3} more</span>
+            <span>{collections.length - 6} more</span>
           </button>
         )}
       </div>
@@ -235,7 +229,7 @@ export function AddBookmarkModal({
   const [url, setUrl] = useState("");
   const [description, setDescription] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [selectedCollectionId, setSelectedCollectionId] = useState<number | null>(null);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<string | null>(null);
 
   const handleToggleTag = (name: string) => {
     setSelectedTags((prev) =>
@@ -273,7 +267,7 @@ export function AddBookmarkModal({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+        <div className="fixed inset-0 z-50">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -282,13 +276,14 @@ export function AddBookmarkModal({
             className="absolute inset-0 bg-black/50 backdrop-blur-sm"
             onClick={handleClose}
           />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative bg-white rounded-3xl w-full max-w-lg mx-4 p-6 shadow-xl max-h-[90vh] overflow-y-auto"
-          >
+          <div className="flex items-center justify-center min-h-screen p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative bg-white rounded-3xl w-full max-w-lg p-6 shadow-xl max-h-[90vh] overflow-y-auto z-10"
+            >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900">Add Bookmark</h2>
               <button onClick={handleClose} className="p-2 hover:bg-gray-100 rounded-xl transition-colors">
@@ -386,6 +381,7 @@ export function AddBookmarkModal({
               </div>
             </form>
           </motion.div>
+          </div>
         </div>
       )}
     </AnimatePresence>
