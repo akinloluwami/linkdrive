@@ -13,7 +13,12 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "",
+        title: "LinkDrive - Beautifully Organize Your Bookmarks",
+      },
+      {
+        name: "description",
+        content:
+          "Save, organize, and access your favorite links with collections, tags, and powerful search. Never lose a bookmark again.",
       },
     ],
     links: [
